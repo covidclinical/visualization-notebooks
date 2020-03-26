@@ -1,0 +1,11 @@
+name: c19i2b2
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python>=3.7
+  - jupyter
+  - nb_conda
+  - pandas
+  - numpy
+  - altair
