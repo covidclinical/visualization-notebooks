@@ -1,14 +1,16 @@
 # c19i2b2-notebooks
 Jupyter Notebooks for c19i2b2 project.
 
-Set up conda environment
+## Development
+
+Set up the Python environment using conda:
 
 ```sh
 conda env create -f environment.yml
 conda activate c19i2b2
 ```
 
-Start jupyter
+Start Jupyter:
 
 ```sh
 cd notebooks
