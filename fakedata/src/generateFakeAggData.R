@@ -19,7 +19,7 @@ dailyCounts["new_positive_cases"] <- sort( sample(1:100, 32, replace=FALSE))
 dailyCounts["patients_in_icu"] <- sort( sample(1:50, 32, replace=FALSE))
 dailyCounts["new_deaths"] <- -2
   
-write.table( dailyCounts, file="/Users/alba/Desktop/DailyCounts-SiteID.csv", 
+write.table( dailyCounts, file="/Users/alba/Desktop/DailyCounts-BCH.csv", 
              col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
 
 
