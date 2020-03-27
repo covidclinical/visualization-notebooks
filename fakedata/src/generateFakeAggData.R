@@ -13,14 +13,14 @@ dailyCounts <- as.data.frame( matrix( ncol=5, nrow=32))
 colnames( dailyCounts ) <- c("siteid", "date", "new_positive_cases", 
                              "patients_in_icu", "new_deaths")
 
-dailyCounts["siteid"] <- "BCH"
+dailyCounts["siteid"] <- "FMC"
 dailyCounts["date"] <- seq(as.Date("2020-03-20"), as.Date("2020-04-20"), "days")
 dailyCounts["new_positive_cases"] <- sort( sample(1:100, 32, replace=FALSE))
 dailyCounts["patients_in_icu"] <- sort( sample(1:50, 32, replace=FALSE))
 dailyCounts["new_deaths"] <- -2
   
-write.table( dailyCounts, file="./DailyCounts-SiteID.csv", 
-             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+write.table( dailyCounts, file="./DailyCounts-FMC.csv", 
+             col.names = FALSE, row.names = FALSE, quote = FALSE, sep = ",")
 
 
 #File #2: Demographics-SiteID.csv
@@ -31,14 +31,13 @@ write.table( dailyCounts, file="./DailyCounts-SiteID.csv",
 #(3) Include all patients in the "All" row
 #(4) The total_patients value in the sex=All row should be everyone
 #(5) Obfuscate small counts with "-1" as required by your institution
-
 demographics <- as.data.frame( matrix( ncol=12, nrow=4))
 colnames( demographics ) <- c("siteid", "sex", "total_patients", 
                              "age_0to2", "age_3to5", "age_6to11", 
                              "age_12to17", "age_18to25", "age_26to49", 
                              "age_50to69", "age_70to79", "age_80plus")
 
-demographics["siteid"] <- "BCH"
+demographics["siteid"] <- "FMC"
 demographics["sex"] <- c("Male", "Female", "Other", "All")
 demographics["total_patients"] <- c(round(0.6*sum(dailyCounts$new_positive_cases)), sum(dailyCounts$new_positive_cases)-round(0.6*sum(dailyCounts$new_positive_cases)), 0, sum(dailyCounts$new_positive_cases))
 
@@ -49,8 +48,8 @@ demographics[3,4:12] <- 0
 demographics[4,4:12] <- colSums(demographics[1:3,4:12])
 
 
-write.table( demographics, file="./Demographics-SiteID.csv", 
-             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+write.table( demographics, file="./Demographics-FMC.csv", 
+             col.names = FALSE, row.names = FALSE, quote = FALSE, sep = ",")
 
 
 #File #3: Labs-SiteID.csv
@@ -64,8 +63,8 @@ write.table( demographics, file="./Demographics-SiteID.csv",
 #(6) Only use Gabe's loinc codes in this list, not your local codes
 #(7) Obfuscate small counts with "-1" as required by your institution
 
-write.table( labs, file="./Labs-SiteID.csv", 
-             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+write.table( labs, file="./Labs-FMC.csv", 
+             col.names = FALSE, row.names = FALSE, quote = FALSE, sep = ",")
 
 
 #File #4: Diagnoses-SiteID.csv
@@ -78,6 +77,6 @@ write.table( labs, file="./Labs-SiteID.csv",
 #Examples: (Diagnoses-BIDMC.csv)
 
 
-write.table( diagnoses, file="./Diagnoses-SiteID.csv", 
-             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+write.table( diagnoses, file="./Diagnoses-FMC.csv", 
+             col.names = FALSE, row.names = FALSE, quote = FALSE, sep = ",")
 

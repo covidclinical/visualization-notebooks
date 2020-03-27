@@ -1,5 +1,0 @@
-siteid,sex,total_patients,age_0to2,age_3to5,age_6to11,age_12to17,age_18to25,age_26to49,age_50to69,age_70to79,age_80plus
-BCH,Male,1109,0,5,8,12,60,135,246,303,340
-BCH,Female,739,0,0,7,12,34,89,149,195,253
-BCH,Other,0,0,0,0,0,0,0,0,0,0
-BCH,All,1848,0,5,15,24,94,224,395,498,593
