@@ -19,7 +19,7 @@ dailyCounts["new_positive_cases"] <- sort( sample(1:100, 32, replace=FALSE))
 dailyCounts["patients_in_icu"] <- sort( sample(1:50, 32, replace=FALSE))
 dailyCounts["new_deaths"] <- -2
   
-write.table( dailyCounts, file="/Users/alba/Desktop/DailyCounts-BCH.csv", 
+write.table( dailyCounts, file="./DailyCounts-SiteID.csv", 
              col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
 
 
@@ -41,3 +41,43 @@ colnames( demographics ) <- c("siteid", "sex", "total_patients",
 demographics["siteid"] <- "BCH"
 demographics["sex"] <- c("Male", "Female", "Other", "All")
 demographics["total_patients"] <- c(round(0.6*sum(dailyCounts$new_positive_cases)), sum(dailyCounts$new_positive_cases)-round(0.6*sum(dailyCounts$new_positive_cases)), 0, sum(dailyCounts$new_positive_cases))
+
+#I enter the numbers manually to match with the sum and follow a progression
+demographics[1,4:12] <- c(0,5,8,12,60,135,246,303,340)
+demographics[2,4:12] <- c(0,0,7,12,34,89,149,195,253)
+demographics[3,4:12] <- 0
+demographics[4,4:12] <- colSums(demographics[1:3,4:12])
+
+
+write.table( demographics, file="./Demographics-SiteID.csv", 
+             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+
+
+#File #3: Labs-SiteID.csv
+#Fields: siteid, loinc, days_since_positive, num_patients, mean_value, stdev_value
+#Notes:
+#(1) One row per loinc and days_since_positive
+#(2) days_since_positive = 1 on the date the patient has a positive COVID test result
+#(3) Start the table at days_since_positive = -6 (seven days before the positive test)
+#(4) Go for as many days as you have data: days_since_positive = 5, 6, 7, ...
+#(5) Map your local loinc codes to the loinc code in Gabe's list
+#(6) Only use Gabe's loinc codes in this list, not your local codes
+#(7) Obfuscate small counts with "-1" as required by your institution
+
+write.table( labs, file="./Labs-SiteID.csv", 
+             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+
+
+#File #4: Diagnoses-SiteID.csv
+#Fields: siteid, icd_code, icd_version, num_patients
+#Notes:
+#(1) One row per ICD diagnosis code
+#(2) All diagnoses the patients have starting seven days before the positive test 
+#(3) icd_version = "9" or "10"
+#(4) Obfuscate small counts with "-1" as required by your institution
+#Examples: (Diagnoses-BIDMC.csv)
+
+
+write.table( diagnoses, file="./Diagnoses-SiteID.csv", 
+             col.names = TRUE, row.names = FALSE, quote = FALSE, sep = ",")
+
