@@ -1,4 +1,4 @@
-name: c19i2b2
+name: c19i2b2-py
 channels:
   - conda-forge
   - bioconda
@@ -6,6 +6,7 @@ dependencies:
   - python>=3.7
   - jupyter
   - nb_conda
+  - ipykernel
   - pandas
   - numpy
   - altair
