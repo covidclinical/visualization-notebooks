@@ -1,4 +1,1 @@
-*.csv
-*.tsv
-*.json
-*.txt
+fake_event_data.csv
