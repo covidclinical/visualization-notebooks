@@ -3,16 +3,22 @@ Jupyter Notebooks for c19i2b2 project.
 
 ## Development
 
-Set up the Python environment using conda:
+Set up environments using conda:
 
 ```sh
-conda env create -f environment.yml
-conda activate c19i2b2
+conda env create -f environment.py.yml
+conda env create -f environment.r.yml
 ```
 
-Start Jupyter:
+Enter the notebook directory:
 
 ```sh
 cd notebooks
+```
+
+Start Jupyter with the Python (or R) kernel:
+
+```sh
+conda activate c19i2b2-py # or c19i2b2-r
 jupyter notebook
 ```

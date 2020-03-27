@@ -1,0 +1,12 @@
+name: c19i2b2-r
+channels:
+  - conda-forge
+  - r
+dependencies:
+  - r>=3.5
+  - jupyter
+  - nb_conda
+  - r-irkernel
+  - r-ggplot2
+  - r-plyr
+  - r-plotly
