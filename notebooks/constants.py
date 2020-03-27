@@ -41,3 +41,6 @@ SITE_IDS = [
     "FMC", # fake medical center
     "FCH", # fake children's hospital
 ]
+
+# We can use the following 20 site IDs when generating fake datasets
+# ['FWN','FXL','FZT','FMT','FFG','FOW','FSZ','FMA','FEQ','FVX','FKQ','FBL','FDQ','FKN','FBD','FKL','FUU','FZU','FZM','FUN']
