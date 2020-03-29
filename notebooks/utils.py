@@ -62,7 +62,7 @@ def read_full_site_df(site_file_info, file_type, columns):
     site_dfs = []
     for info in filtered_site_file_info:
         df = pd.read_csv(info["file_path"], header=None)
-        df[COLUMNS.SITE_ID] = info["site_id"]
+        #df[COLUMNS.SITE_ID] = info["site_id"]
         site_dfs.append(df)
 
     full_df = pd.concat(site_dfs, ignore_index=True)
@@ -71,6 +71,7 @@ def read_full_site_df(site_file_info, file_type, columns):
 
 def read_full_daily_counts_df(site_file_info):
     return read_full_site_df(site_file_info, SITE_FILE_TYPES.DAILY_COUNTS, [
+        COLUMNS.SITE_ID,
         COLUMNS.DATE,
         COLUMNS.NEW_POSITIVE_CASES,
         COLUMNS.PATIENTS_IN_ICU,
@@ -79,6 +80,7 @@ def read_full_daily_counts_df(site_file_info):
 
 def read_full_demographics_df(site_file_info):
     return read_full_site_df(site_file_info, SITE_FILE_TYPES.DEMOGRAPHICS, [
+        COLUMNS.SITE_ID,
         COLUMNS.SEX,
         COLUMNS.TOTAL_PATIENTS,
         COLUMNS.AGE_0TO2,
@@ -94,6 +96,7 @@ def read_full_demographics_df(site_file_info):
 
 def read_full_diagnoses_df(site_file_info):
     return read_full_site_df(site_file_info, SITE_FILE_TYPES.DIAGNOSES, [
+        COLUMNS.SITE_ID,
         COLUMNS.ICD_CODE,
         COLUMNS.ICD_VERSION,
         COLUMNS.NUM_PATIENTS
@@ -101,12 +104,17 @@ def read_full_diagnoses_df(site_file_info):
 
 def read_full_labs_df(site_file_info):
     return read_full_site_df(site_file_info, SITE_FILE_TYPES.LABS, [
+        COLUMNS.SITE_ID,
         COLUMNS.LOINC,
         COLUMNS.DAYS_SINCE_POSITIVE,
         COLUMNS.NUM_PATIENTS,
         COLUMNS.MEAN_VALUE,
         COLUMNS.STDEV_VALUE
     ])
+
+"""
+Helpers for reading all of the latest data for each site file type.
+"""
 
 def read_latest_daily_counts_df():
     return read_full_daily_counts_df(get_latest_site_file_info())
