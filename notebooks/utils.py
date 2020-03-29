@@ -53,3 +53,6 @@ def read_full_labs_df(site_ids):
         4: COLUMNS.MEAN_VALUE,
         5: COLUMNS.STDEV_VALUE
     })
+
+def read_icd_df():
+    return pd.read_csv(join(DATA_DIR, "icdMappingFile.txt"), sep="\t", header=0)
