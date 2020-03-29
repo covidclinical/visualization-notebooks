@@ -4,6 +4,10 @@ from os import listdir
 # File paths
 DATA_DIR = join("..", "fakedata") # TODO: change this to `data` once real data exists
 
+SITE_DATA_DIR = join(DATA_DIR, "site_level_data")
+SITE_DATA_GLOB = join(SITE_DATA_DIR, "*", "*.csv")
+SITE_FILE_REGEX = r"(.*)(?P<year>[\d]{{4}})-(?P<month>[\d]{{2}})-(?P<day>[\d]{{2}})_{file_type}-(?P<site_id>[\w]*).csv$"
+
 # Standard column names
 class COLUMNS:
     # Site-level
@@ -37,38 +41,27 @@ class COLUMNS:
     EVENT = "event"
     VALUE = "value"
 
-# List of all site IDs for which there is data in `DATA_DIR`
-SITE_IDS = [
-    "FMC", # fake medical center
-    "FCH", # fake children's hospital
+ALL_AGE_COLUMNS = [
+    COLUMNS.AGE_0TO2,
+    COLUMNS.AGE_3TO5,
+    COLUMNS.AGE_6TO11,
+    COLUMNS.AGE_12TO17,
+    COLUMNS.AGE_18TO25,
+    COLUMNS.AGE_26TO49,
+    COLUMNS.AGE_50TO69,
+    COLUMNS.AGE_70TO79,
+    COLUMNS.AGE_80PLUS
 ]
 
-# We can use the following 20 site IDs when generating fake datasets
-# ['FWN','FXL','FZT','FMT','FFG','FOW','FSZ','FMA','FEQ','FVX','FKQ','FBL','FDQ','FKN','FBD','FKL','FUU','FZU','FZM','FUN']
+class SITE_FILE_TYPES:
+    DAILY_COUNTS = "DailyCounts"
+    DEMOGRAPHICS = "Demographics"
+    DIAGNOSES = "Diagnoses"
+    LABS = "Labs"
 
-# Collect all site IDs by looking into file names in `DATA_DIR`.
-filenames = [f for f in listdir(DATA_DIR) if isfile(join(DATA_DIR, f))]
-    
-_SITE_IDS_FOR_DAILY_COUNT_FILES = [fname[len("DailyCounts-"):-len(".csv")] for fname in filenames if "DailyCounts-" in fname]
-_SITE_IDS_FOR_DEMOGRAPHICS_FILES = [fname[len("Demographics-"):-len(".csv")] for fname in filenames if "Demographics-" in fname]
-_SITE_IDS_FOR_LABS_FILES = [fname[len("Labs-"):-len(".csv")] for fname in filenames if "Labs-" in fname]
-_SITE_IDS_FOR_DIAGNOSES_FILES = [fname[len("Diagnoses-"):-len(".csv")] for fname in filenames if "Diagnoses-" in fname]
-
-# List of all site IDs collected by looking into the file names in `DATA_DIR`.
-class SITE_IDS_IN_DIR:
-    DAILY_COUNT = _SITE_IDS_FOR_DAILY_COUNT_FILES
-    DEMOGRAPHICS = _SITE_IDS_FOR_DEMOGRAPHICS_FILES
-    LABS = _SITE_IDS_FOR_LABS_FILES
-    DIAGNOSES = _SITE_IDS_FOR_DIAGNOSES_FILES
-    INTERSECTION = list(
-        set(_SITE_IDS_FOR_DAILY_COUNT_FILES) & 
-        set(_SITE_IDS_FOR_DEMOGRAPHICS_FILES) & 
-        set(_SITE_IDS_FOR_LABS_FILES) &
-        set(_SITE_IDS_FOR_DIAGNOSES_FILES)
-    )
-    UNION = list(
-        set(_SITE_IDS_FOR_DAILY_COUNT_FILES) | 
-        set(_SITE_IDS_FOR_DEMOGRAPHICS_FILES) | 
-        set(_SITE_IDS_FOR_LABS_FILES) |
-        set(_SITE_IDS_FOR_DIAGNOSES_FILES)
-    )
+ALL_SITE_FILE_TYPES = [
+    SITE_FILE_TYPES.DAILY_COUNTS,
+    SITE_FILE_TYPES.DEMOGRAPHICS,
+    SITE_FILE_TYPES.DIAGNOSES,
+    SITE_FILE_TYPES.LABS
+]
