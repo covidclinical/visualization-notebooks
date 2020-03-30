@@ -127,3 +127,9 @@ def read_latest_diagnoses_df():
 
 def read_latest_labs_df():
     return read_full_labs_df(get_latest_site_file_info())
+
+"""
+Helpers for reading additional data files.
+"""
+def read_icd_df():
+    return pd.read_csv(join(DATA_DIR, "icdMappingFile.txt"), sep="\t", header=0)
