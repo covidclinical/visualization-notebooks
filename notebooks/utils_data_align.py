@@ -29,7 +29,7 @@ def add_aligned_time_steps_column(df, qfield, datefield, gte):
     ######################
 
     timestep = "timestep"
-    df_copy = df.copy()
+    df_copy = df.copy(deep=True)
     df_copy[timestep] = -1
 
     SITE_IDS = df[COLUMNS.SITE_ID].unique().tolist()
@@ -47,10 +47,11 @@ def add_aligned_time_steps_column(df, qfield, datefield, gte):
                 reference_date = df_copy[datefield][idx]
                 break
         
-        for idx in df_by_site.index:
-            ref_date_obj = datetime.strptime(reference_date, '%Y-%m-%d')
-            cur_date_obj = datetime.strptime(df_copy[datefield][idx], '%Y-%m-%d')
+        if reference_date != "":
+            for idx in df_by_site.index:
+                ref_date_obj = datetime.strptime(reference_date, '%Y-%m-%d')
+                cur_date_obj = datetime.strptime(df_copy[datefield][idx], '%Y-%m-%d')
 
-            df_copy[timestep][idx] = (cur_date_obj - ref_date_obj).days
+                df_copy.loc[idx, 'timestep'] = (cur_date_obj - ref_date_obj).days
 
     return df_copy
