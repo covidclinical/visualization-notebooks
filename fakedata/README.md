@@ -2,10 +2,10 @@
 
 The data contained in this directory has been created for the purposes of preparing visualizations while real data from real sites is gathered.
 
-Files here should have the expected formats:
+Fake site-level files here should have the expected formats:
 - CSV
 - no headers
-- named according to the `{prefix}-{site_id}.csv` convention, where prefix is one of 
+- generated according to the `site_level_data/{site_id}/{year}-{month}-{day}_{file_type}-{site_id}.csv` convention, where `{file_type}` is one of 
     - `DailyCounts`
     - `Demographics`
     - `Diagnoses`
