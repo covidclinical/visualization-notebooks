@@ -7,6 +7,7 @@ from os.path import join
 
 from constants import (
     COLUMNS,
+    DATA_DIR,
     SITE_DATA_GLOB, 
     SITE_FILE_REGEX, 
     SITE_FILE_TYPES, 
