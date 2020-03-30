@@ -134,3 +134,6 @@ Helpers for reading additional data files.
 """
 def read_icd_df():
     return pd.read_csv(join(DATA_DIR, "icdMappingFile.txt"), sep="\t", header=0)
+
+def read_loinc_df():
+    return pd.read_csv(join(DATA_DIR, "labMap.csv"), header=0)
