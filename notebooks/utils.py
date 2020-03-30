@@ -27,13 +27,13 @@ def read_full_demographics_df(site_ids):
         2: COLUMNS.TOTAL_PATIENTS,
         3: COLUMNS.AGE_0TO2,
         4: COLUMNS.AGE_3TO5,
-        5: AGE_6TO11,
-        6: AGE_12TO17,
-        7: AGE_18TO25,
-        8: AGE_26TO49,
-        9: AGE_50TO69,
-        10: AGE_70TO79,
-        11: AGE_80PLUS
+        5: COLUMNS.AGE_6TO11,
+        6: COLUMNS.AGE_12TO17,
+        7: COLUMNS.AGE_18TO25,
+        8: COLUMNS.AGE_26TO49,
+        9: COLUMNS.AGE_50TO69,
+        10: COLUMNS.AGE_70TO79,
+        11: COLUMNS.AGE_80PLUS
     })
 
 def read_full_diagnoses_df(site_ids):
