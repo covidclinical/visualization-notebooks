@@ -2,7 +2,8 @@ from os.path import join, isfile
 from os import listdir
 
 # File paths
-DATA_DIR = join("..", "fakedata") # TODO: change this to `data` once real data exists
+# DATA_DIR = join("..", "fakedata") # Use this line to test with fake datasets
+DATA_DIR = join("..", "data")
 
 SITE_DATA_DIR = join(DATA_DIR, "site_level_data")
 SITE_DATA_GLOB = join(SITE_DATA_DIR, "*", "*.csv")
