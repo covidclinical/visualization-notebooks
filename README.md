@@ -3,7 +3,7 @@ Jupyter Notebooks for c19i2b2 project.
 
 ## Development
 
-Set up git hook to prevent clear notebook outputs before commit:
+Set up git hook to clear notebook outputs before commit:
 
 ```sh
 cp ./pre-commit.sh ./.git/hooks/pre-commit
