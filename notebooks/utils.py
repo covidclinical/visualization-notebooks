@@ -134,7 +134,7 @@ def read_latest_labs_df():
 Helpers for reading additional data files.
 """
 def read_icd_df():
-    return pd.read_csv(join(DATA_DIR, "icdMappingFile.txt"), sep="\t", header=0)
+    return pd.read_csv(join(DATA_DIR, "mappingICD_CCS.txt"), sep="\t", header=0)
 
 def read_loinc_df():
     return pd.read_csv(join(DATA_DIR, "labMap.csv"), header=0)
@@ -207,6 +207,6 @@ def apply_theme(base, legend_orient="top-left"):
         cornerRadius=0,
         orient=legend_orient
     ).configure_view(
-        # stroke="black",
-        strokeWidth=1
+        stroke="black",
+        # strokeWidth=3
     )
