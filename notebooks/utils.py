@@ -149,15 +149,15 @@ Helpers for preprocessing datasets before visualizing them.
 def preprocess_demographics_df_for_vis(df):
     # Use more readable column names
     df = df.rename(columns={
-        "age_0to2": "0-2",
-        "age_3to5": "3-5",
-        "age_6to11": "6-11",
-        "age_12to17": "12-17",
-        "age_18to25": "18-25",
-        "age_26to49": "26-49",
-        "age_50to69": "50-69",
-        "age_70to79": "70-79",
-        "age_80plus": "80+"
+        COLUMNS.AGE_0TO2: "0-2",
+        COLUMNS.AGE_3TO5: "3-5",
+        COLUMNS.AGE_6TO11: "6-11",
+        COLUMNS.AGE_12TO17: "12-17",
+        COLUMNS.AGE_18TO25: "18-25",
+        COLUMNS.AGE_26TO49: "26-49",
+        COLUMNS.AGE_50TO69: "50-69",
+        COLUMNS.AGE_70TO79: "70-79",
+        COLUMNS.AGE_80PLUS: "80+"
     })
     # Use the consistent capitalization
     df[COLUMNS.SEX] = df[COLUMNS.SEX].apply(lambda x: x.capitalize())
@@ -169,15 +169,16 @@ def preprocess_demographics_df_for_vis(df):
 
     # Wide to long
     df = pd.melt(df, id_vars=[COLUMNS.SITE_ID, COLUMNS.SEX])
-    df = df.rename(columns={"variable": "age_group", "value": "num_patients"})
+    df = df.rename(columns={"variable": COLUMNS.AGE_GROUP, "value": COLUMNS.NUM_PATIENTS})
     return df
 
 def preprocess_daily_counts_df_for_vis(df):
     # Change variables to more readable names
     df = df.rename(columns={
-        "new_positive_cases": "New positive cases",
-        "patients_in_icu": "Patients in ICU",
-        "new_deaths": "New deaths"
+        # TODO: Do we need to do this here?
+        COLUMNS.NEW_POSITIVE_CASES: "New positive cases",
+        COLUMNS.PATIENTS_IN_ICU: "Patients in ICU",
+        COLUMNS.NEW_DEATHS: "New deaths"
     })
 
     # Add a column that use relative time point
@@ -189,8 +190,8 @@ def preprocess_daily_counts_df_for_vis(df):
     df.loc[df["New deaths"] < 0, "New deaths"] = 0
 
     # wide to long
-    df = pd.melt(df, id_vars=["siteid", "date", "timestep"])
-    df = df.rename(columns={"variable": "category", "value": "num_patients"})
+    df = pd.melt(df, id_vars=[COLUMNS.SITE_ID, COLUMNS.DATE, "timestep"])
+    df = df.rename(columns={"variable": "category", "value": COLUMNS.NUM_PATIENTS})
     return df
 
 def preprocess_labs_df_for_vis(df):
@@ -199,7 +200,7 @@ def preprocess_labs_df_for_vis(df):
     df["loinc_name"] = df[COLUMNS.LOINC].apply(lambda code: _loinc_df.at[code, "name"].capitalize())
 
     # Convert uncertain data to zero
-    df.loc[df["num_patients"] < 0, "num_patients"] = 0
+    df.loc[df[COLUMNS.NUM_PATIENTS] < 0, COLUMNS.NUM_PATIENTS] = 0
     return df
 
 """
