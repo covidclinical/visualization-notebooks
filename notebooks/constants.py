@@ -26,6 +26,7 @@ class COLUMNS:
     NEW_DEATHS = "new_deaths"
     SEX = "sex"
     TOTAL_PATIENTS = "total_patients"
+    AGE_GROUP = "age_group"
     AGE_0TO2 = "age_0to2"
     AGE_3TO5 = "age_3to5"
     AGE_6TO11 = "age_6to11"
