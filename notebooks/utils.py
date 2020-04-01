@@ -205,8 +205,74 @@ def apply_theme(base, legend_orient="top-left"):
         labelFontSize=16, labelFontWeight=300,
         padding=10,
         cornerRadius=0,
+        orient=legend_orient,
+        fillColor="white",
+        strokeColor="lightgray"
+    ).configure_view(
+        # stroke="black",
+        # strokeWidth=3
+    )
+
+def apply_trellis_theme(base):
+    return base.configure_axis(
+        labelFontSize=14,
+        labelFontWeight=300,
+        titleFontSize=18,
+        titleFontWeight=400,
+        labelLimit=1000,
+        gridColor="#f0f0f0",
+        # gridOpacity=0,
+        domainOpacity=0,
+        # tickOpacity=0
+        tickColor="lightgray"
+        # grid=False
+    ).configure_title(
+        fontSize=22, fontWeight=400, anchor="middle",
+        dx=160, dy=-15
+        # dx=382, dy=35
+    ).configure_legend(
+        titleFontSize=18, titleFontWeight=400,
+        labelFontSize=16, labelFontWeight=300,
+        padding=10,
+        cornerRadius=0,
+        labelLimit=1000,
+        # strokeColor="lightgray"
+    ).configure_view(
+        stroke="lightgray",
+        strokeWidth=2
+        # strokeOpacity=0
+    ).configure_header(
+        # titleFontSize=18,
+        # titleFontWeight=300,
+        labelFontSize=18,
+    ).configure_concat(
+        spacing=-50
+    ).configure_facet(
+        spacing=6
+    )
+
+def apply_grouped_bar_theme(base, legend_orient="top-left", strokeColor=None):
+    return base.configure_axis(
+        labelFontSize=14,
+        labelFontWeight=300,
+        titleFontSize=18,
+        titleFontWeight=300,
+        labelLimit=1000,
+        # grid=False
+    ).configure_title(fontSize=18, fontWeight=400, anchor="middle"
+    ).configure_legend(
+        titleFontSize=18, titleFontWeight=400,
+        labelFontSize=16, labelFontWeight=300,
+        fillColor="white",
+        strokeColor=strokeColor,
+        padding=10,
+        cornerRadius=0,
         orient=legend_orient
     ).configure_view(
-        stroke="black",
+        # stroke=None
         # strokeWidth=3
+    ).configure_header(
+        titleFontSize=16,
+        titleFontWeight=300,
+        labelFontSize=13
     )
