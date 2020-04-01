@@ -11,3 +11,4 @@ dependencies:
   - numpy
   - altair
   - ipywidgets
+  - python-dateutil

@@ -3,6 +3,7 @@ import glob
 import pandas as pd
 import numpy as np
 import datetime
+import dateutil.parser
 from os.path import join
 
 
@@ -80,6 +81,13 @@ def read_full_daily_counts_df(site_file_info):
         COLUMNS.PATIENTS_IN_ICU,
         COLUMNS.NEW_DEATHS
     ])
+    df[COLUMNS.DATE] = df[COLUMNS.DATE].astype(str)
+    def convert_date(date_str):
+        try:
+            return dateutil.parser.parse(date_str)
+        except:
+            return np.nan
+    df[COLUMNS.DATE] = df[COLUMNS.DATE].apply(convert_date)
     df[COLUMNS.NEW_POSITIVE_CASES] = df[COLUMNS.NEW_POSITIVE_CASES].astype(int)
     df[COLUMNS.PATIENTS_IN_ICU] = df[COLUMNS.PATIENTS_IN_ICU].astype(int)
     df[COLUMNS.NEW_DEATHS] = df[COLUMNS.NEW_DEATHS].astype(int)
@@ -255,8 +263,8 @@ def add_aligned_time_steps_column(df, qfield, datefield, gte):
 
         if reference_date != "":
             for idx in df_by_site.index:
-                ref_date_obj = datetime.datetime.strptime(reference_date, '%Y-%m-%d')
-                cur_date_obj = datetime.datetime.strptime(df_copy[datefield][idx], '%Y-%m-%d')
+                ref_date_obj = reference_date
+                cur_date_obj = df_copy[datefield][idx]
 
                 df_copy.loc[idx, 'timestep'] = (cur_date_obj - ref_date_obj).days
 
