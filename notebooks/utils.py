@@ -57,7 +57,6 @@ def get_site_file_info_by_date(year, month, day, file_types=ALL_SITE_FILE_TYPES)
 """
 Utilities for reading in data from a list of site info for each file type.
 """
-
 def read_full_site_df(site_file_info, file_type, columns):
     filtered_site_file_info = [ info for info in site_file_info if info["file_type"] == file_type ]
 
@@ -119,7 +118,6 @@ def read_full_labs_df(site_file_info):
 """
 Helpers for reading all of the latest data for each site file type.
 """
-
 def read_latest_daily_counts_df():
     return read_full_daily_counts_df(get_latest_site_file_info())
 
@@ -131,6 +129,35 @@ def read_latest_diagnoses_df():
 
 def read_latest_labs_df():
     return read_full_labs_df(get_latest_site_file_info())
+
+"""
+Helpers for cleaning datasets after reading them to visualize.
+"""
+def clean_demographics_df(df):
+    # Use more readable column names
+    df = df.rename(columns={
+        "age_0to2": "0-2",
+        "age_3to5": "3-5",
+        "age_6to11": "6-11",
+        "age_12to17": "12-17",
+        "age_18to25": "18-25",
+        "age_26to49": "26-49",
+        "age_50to69": "50-69",
+        "age_70to79": "70-79",
+        "age_80plus": "80+"
+    })
+    # Use the consistent capitalization
+    df[COLUMNS.SEX] = df[COLUMNS.SEX].apply(lambda x: x.capitalize())
+    return df
+
+def clean_daily_counts_df(df):
+    # Change variables to more readable names
+    df = df.rename(columns={
+        "new_positive_cases": "New positive cases",
+        "new_deaths": "New deaths",
+        "patients_in_icu": "Patients in ICU"
+    })
+    return df
 
 """
 Helpers for reading additional data files.
