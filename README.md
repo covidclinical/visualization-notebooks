@@ -17,6 +17,11 @@ conda env create -f environment.py.yml
 conda env create -f environment.r.yml
 ```
 
+To use real datasets, put data files inside the `\data` folder and make sure to set the data directory in `constants.py`:
+```python
+DATA_DIR = join("..", "data")
+```
+
 Enter the notebook directory:
 
 ```sh
