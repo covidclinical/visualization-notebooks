@@ -23,7 +23,7 @@ To use real datasets, create a data folder:
 mkdir data
 ```
 
-Add data files inside this folder, and make sure to properly set the data directory in `constants.py`:
+Add data files inside this folder, and make sure to properly set the data directory in [`notebooks/constants.py`](https://github.com/hms-dbmi/c19i2b2-notebooks/blob/master/notebooks/constants.py#L6):
 
 ```python
 DATA_DIR = join("..", "data")
