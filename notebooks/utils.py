@@ -129,9 +129,9 @@ def read_latest_labs_df():
     return read_full_labs_df(get_latest_site_file_info())
 
 """
-Helpers for cleaning datasets after reading them to visualize.
+Helpers for preprocessing datasets before visualizing them.
 """
-def clean_demographics_df(df):
+def preprocess_demographics_df_for_vis(df):
     # Use more readable column names
     df = df.rename(columns={
         "age_0to2": "0-2",
@@ -146,15 +146,45 @@ def clean_demographics_df(df):
     })
     # Use the consistent capitalization
     df[COLUMNS.SEX] = df[COLUMNS.SEX].apply(lambda x: x.capitalize())
+
+    # Remove aggregated rows and columns
+    not_all_filter = df[COLUMNS.SEX] != "All"
+    df = df[not_all_filter]
+    df = df.drop(columns=[COLUMNS.TOTAL_PATIENTS])
+
+    # Wide to long
+    df = pd.melt(df, id_vars=[COLUMNS.SITE_ID, COLUMNS.SEX])
+    df = df.rename(columns={"variable": "age_group", "value": "num_patients"})
     return df
 
-def clean_daily_counts_df(df):
+def preprocess_daily_counts_df_for_vis(df):
     # Change variables to more readable names
     df = df.rename(columns={
         "new_positive_cases": "New positive cases",
-        "new_deaths": "New deaths",
-        "patients_in_icu": "Patients in ICU"
+        "patients_in_icu": "Patients in ICU",
+        "new_deaths": "New deaths"
     })
+
+    # Add a column that use relative time point
+    df = add_aligned_time_steps_column(df, "New positive cases", "date", 1)
+
+    # Convert uncertain data to zero
+    df.loc[df["New positive cases"] < 0, "New positive cases"] = 0
+    df.loc[df["Patients in ICU"] < 0, "Patients in ICU"] = 0
+    df.loc[df["New deaths"] < 0, "New deaths"] = 0
+
+    # wide to long
+    df = pd.melt(df, id_vars=["siteid", "date", "timestep"])
+    df = df.rename(columns={"variable": "category", "value": "num_patients"})
+    return df
+
+def preprocess_labs_df_for_vis(df):
+    # Add descriptive columns
+    _loinc_df = read_loinc_df().set_index('loinc').rename(columns={'labTest': 'name'})
+    df["loinc_name"] = df[COLUMNS.LOINC].apply(lambda code: _loinc_df.at[code, "name"].capitalize())
+
+    # Convert uncertain data to zero
+    df.loc[df["num_patients"] < 0, "num_patients"] = 0
     return df
 
 """
