@@ -63,7 +63,9 @@ def read_full_site_df(site_file_info, file_type, columns):
     site_dfs = []
     for info in filtered_site_file_info:
         df = pd.read_csv(info["file_path"], header=None)
-        #df[COLUMNS.SITE_ID] = info["site_id"]
+        if df.shape[0] > 0 and df.iloc[0,0].lower() in [ "site_id", "siteid" ]:
+            # This file has a header but should not have one.
+            df = df.drop(index=[0])
         site_dfs.append(df)
 
     full_df = pd.concat(site_dfs, ignore_index=True)
