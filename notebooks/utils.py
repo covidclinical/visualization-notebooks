@@ -194,6 +194,23 @@ def preprocess_daily_counts_df_for_vis(df):
     df = df.rename(columns={"variable": "category", "value": COLUMNS.NUM_PATIENTS})
     return df
 
+def preprocess_diagnoses_df_for_vis(df):
+    # Our lookup table does not contain dots
+    df[COLUMNS.ICD_CODE] = df[COLUMNS.ICD_CODE].apply(lambda x: x.replace(".", ""))
+
+    # Merge with a lookup table
+    icd_df = read_icd_df()
+    df = df.merge(icd_df, how="left", left_on=COLUMNS.ICD_CODE, right_on="ICDcode")
+
+    # Handle the missing data
+    df.loc[pd.isna(df["ICDdescription"]), "ICDdescription"] = df.loc[pd.isna(df["ICDdescription"]), COLUMNS.ICD_CODE]
+    df.loc[pd.isna(df["Category"]), "Category"] = df.loc[pd.isna(df["Category"]), COLUMNS.ICD_CODE]
+
+    # Consistent capitalization
+    df["ICDdescription"] = df["ICDdescription"].apply(lambda x: x.capitalize())
+    df["Category"] = df["Category"].apply(lambda x: x.capitalize())
+    return df
+
 def preprocess_labs_df_for_vis(df):
     # Add descriptive columns
     _loinc_df = read_loinc_df().set_index('loinc').rename(columns={'labTest': 'name'})
