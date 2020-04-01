@@ -47,7 +47,7 @@ ui <- fluidPage(
                             "ICD10" = 10)), 
               br(), 
               sliderInput("patients", "Number of patients:",
-                          min = 0, max = 1000, value = c(0,250)
+                          min = 0, max = 500, value = c(2,250)
               )
             
         ),
@@ -57,7 +57,7 @@ ui <- fluidPage(
                       tabPanel("Daily Counts", plotOutput("dailyCounts")),
                       tabPanel("Demographics", plotOutput("sexByAge"), plotOutput("sexPlot")), 
                       tabPanel("Laboratory", plotOutput("lab")),
-                      tabPanel("Diagnosis", plotOutput("diag"),DT::dataTableOutput('icdDesc'), plotOutput("phenoPrevalence"))
+                      tabPanel("Diagnosis", plotOutput("diag"),DT::dataTableOutput('icdDesc'))
                                
                   
       )
@@ -72,34 +72,37 @@ server <- function(input, output) {
                               header = TRUE, sep = ",")
     #colnames( dailyCounts ) <- c("siteid", "date", "new_positive_cases", 
     #                             "patients_in_icu", "new_deaths")
-    mdaily <- melt( dailyCounts)
+    dailyCountsSelection <- dailyCounts[, c("siteid", "date", "new_positive_cases", 
+                                            "patients_in_icu", "new_deaths")]
+    mdaily <- melt( dailyCountsSelection)
     
     
     demographics <- read.delim(list.files(path = ".", pattern = "Demographics"), 
                                header = TRUE, sep = ",")
-    colnames( demographics ) <- c("siteid", "sex", "total_patients", 
-                                  "age_0to2", "age_3to5", "age_6to11", 
-                                  "age_12to17", "age_18to25", "age_26to49", 
-                                  "age_50to69", "age_70to79", "age_80plus")
+
+    demographicsSelection <- demographics[, c("siteid", "sex", "total_patients", 
+                                              "age_0to2", "age_3to5", "age_6to11", 
+                                              "age_12to17", "age_18to25", "age_26to49", 
+                                              "age_50to69", "age_70to79", "age_80plus")]
+    mdemog <- melt( demographicsSelection)
     
-    mdemog <- melt( demographics)
-    
-    demogTotal <- mdemog[ mdemog$variable == "total_patients" & mdemog$sex != "All", ]
-    demogByAge <- mdemog[ mdemog$variable != "total_patients" & mdemog$sex != "All", ]
+    demogTotal <- mdemog[ mdemog$variable == "total_patients" & mdemog$sex != "ALL", ]
+    demogByAge <- mdemog[ mdemog$variable != "total_patients" & mdemog$sex != "ALL", ]
     
     laboratory <- read.delim(list.files(path = ".", pattern = "Labs"), 
                              header = TRUE, sep = ",")
-    colnames(laboratory) <- c("siteid", "loinc", "days_since_positive", 
-                              "num_patients", "mean_value", "stdev_value")
+
+    laboratory <- laboratory[, c("siteid", "loinc", "days_since_positive", 
+                                 "num_patients", "mean_value", "stdev_val")]
     labMap <- read.delim("./labMap.csv", sep = ",")
     laboratory <- merge( laboratory, labMap)
     
-    diagnosis <- read.delim(list.files(path = ".", pattern = "Diagnosis"), 
+    diagnosis <- read.delim(list.files(path = ".", pattern = "Diagnos"), 
                             header = TRUE, sep = ",", colClasses = "character")
-    colnames(diagnosis) <- c("siteid", "icd_code", "icd_version", "num_patients")
+    diagnosis <- diagnosis[, c("siteid", "icd_code", "icd_version", "num_patients")]
     diagnosis$num_patients <- as.numeric( diagnosis$num_patients)
     
-    icdMapping <- read.delim("./mappingICD_CCS", 
+    icdMapping <- read.delim("./icdMappingFileComplete.txt", 
                              sep = "\t", 
                              colClasses = "character", 
                              header = TRUE )
@@ -121,7 +124,7 @@ server <- function(input, output) {
             geom_bar(stat="identity", position=position_dodge()) + 
             theme_bw()+
             theme(axis.text.x = element_text(angle =45, hjust = 1))+
-            labs(title = "Daily BCH patient counts", y="number of patients")
+            labs(title = "Daily patient counts", y="number of patients")
         }else{
             ggplot(data=mdaily, aes(x=date, y=value, fill=variable)) +
                 geom_bar(stat="identity", position="stack") + 
@@ -145,13 +148,13 @@ server <- function(input, output) {
             ggplot(data=demogByAge[demogByAge$sex !="All",], aes(x=variable, y=value, fill=sex)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+theme_bw()+
-            labs(title = "Distribution by Age and Sex in BCH", y="number of patients")
+            labs(title = "Distribution by Age and Sex", y="number of patients")
           
         }else{
             ggplot(data=demogByAge[demogByAge$sex !="All",], aes(x=variable, y=value, fill=sex)) +
                 geom_bar(stat="identity", position=("stack")) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+theme_bw()+
-            labs(title = "Distribution by Age and Sex in BCH", y="number of patients")
+            labs(title = "Distribution by Age and Sex", y="number of patients")
           
             
         }
@@ -164,7 +167,7 @@ server <- function(input, output) {
                                     group=labTest)) +
           geom_line(aes(col=labTest))+
           geom_point() + theme(legend.position="bottom", legend.direction="vertical")+
-          labs(title = "Lab test mean value in BCH", 
+          labs(title = "Lab test mean value", 
                x = "days since positive", y = "lab test mean value")
         
         
@@ -175,7 +178,7 @@ server <- function(input, output) {
                                     group=labTest)) +
           geom_line(aes(col=labTest))+
           geom_point() + theme(legend.position="bottom", legend.direction="vertical")+
-          labs(title = "Lab test mean value in BCH", 
+          labs(title = "Lab test mean value", 
                x = "days since positive", y = "lab test mean value")
 
         
@@ -189,18 +192,20 @@ server <- function(input, output) {
   
         if( input$icdVersion != "all"){
             diagSelection <- diagnosis[ diagnosis$icd_version == input$icdVersion, ]
-            ggplot(data=diagSelection, aes(x=reorder(icd_code,-num_patients), y=num_patients)) +
+            ggplot(data=diagSelection, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+
-              labs(title = "Number of patients by ICD9/ICD10 code in BCH", 
-                   x = "ICD9/ICD10 code", y = "number of patients")
+              labs(title = "Number of patients by ICD9/ICD10 code", 
+                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+
+              theme_bw()
             
           }else{
-            ggplot(data=diagnosis, aes(x=reorder(icd_code,-num_patients), y=num_patients)) +
+            ggplot(data=diagnosis, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+
-              labs(title = "Number of patients by ICD9/ICD10 code in BCH", 
-                   x = "ICD9/ICD10 code", y = "number of patients")
+              labs(title = "Number of patients by ICD9/ICD10 code", 
+                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+theme_bw()
+
             
         }
     })
@@ -222,36 +227,6 @@ server <- function(input, output) {
       }
       ,rownames = FALSE)
     
-    output$phenoPrevalence <- renderPlot({
-      if( input$icdVersion != "all"){
-        diagSelection <- diagnosis[ diagnosis$icd_version == input$icdVersion, ]
-        freq <- as.data.frame(table(diagSelection$Category))
-        freq$Perc <- freq$Freq/nrow(freq)*100
-        
-        ggplot( data=freq, aes( x=reorder(Var1,-Freq), y=freq$Perc))+ geom_bar(stat="identity")+
-          labs(x = "Phenotype category", 
-               y = "Percentage", 
-               title  = "Percentage of ICD by phenotype category")+
-          theme(axis.text.x = element_text(angle =45, hjust = 1))
-      
-        #ggplot(data=freq, aes(x="", y=Perc, fill=Var1)) +
-        #  geom_bar(stat="identity", width=1, color="white") +
-        #  coord_polar("y", start=0) +
-          
-        #  theme_void() 
-    #  }else{
-    #    mappingSelection <- icdMapping[ icdMapping$ICDcode %in% diagnosis$icd_code, c(1,2,4) ]
-    #    freq <- as.data.frame(table(mappingSelection$Phenotype))
-    #    freq$Perc <- freq$Freq/nrow(freq)*100
-        
-    #    ggplot( data=freq, aes( x=reorder(Var1,-Freq), y=freq$Perc))+ geom_bar(stat="identity")+
-    #      labs(x = "Phenotype category", 
-    #           y = "Percentage", 
-    #           title  = "Percentage of ICD by phenotype category")+
-    #      theme(axis.text.x = element_text(angle =45, hjust = 1))
-        
-     }
-    })
 }
 
 # Run the application 
