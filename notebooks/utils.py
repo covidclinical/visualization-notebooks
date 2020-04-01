@@ -73,16 +73,20 @@ def read_full_site_df(site_file_info, file_type, columns):
     return full_df
 
 def read_full_daily_counts_df(site_file_info):
-    return read_full_site_df(site_file_info, SITE_FILE_TYPES.DAILY_COUNTS, [
+    df = read_full_site_df(site_file_info, SITE_FILE_TYPES.DAILY_COUNTS, [
         COLUMNS.SITE_ID,
         COLUMNS.DATE,
         COLUMNS.NEW_POSITIVE_CASES,
         COLUMNS.PATIENTS_IN_ICU,
         COLUMNS.NEW_DEATHS
     ])
+    df[COLUMNS.NEW_POSITIVE_CASES] = df[COLUMNS.NEW_POSITIVE_CASES].astype(int)
+    df[COLUMNS.PATIENTS_IN_ICU] = df[COLUMNS.PATIENTS_IN_ICU].astype(int)
+    df[COLUMNS.NEW_DEATHS] = df[COLUMNS.NEW_DEATHS].astype(int)
+    return df
 
 def read_full_demographics_df(site_file_info):
-    return read_full_site_df(site_file_info, SITE_FILE_TYPES.DEMOGRAPHICS, [
+    df = read_full_site_df(site_file_info, SITE_FILE_TYPES.DEMOGRAPHICS, [
         COLUMNS.SITE_ID,
         COLUMNS.SEX,
         COLUMNS.TOTAL_PATIENTS,
@@ -96,17 +100,21 @@ def read_full_demographics_df(site_file_info):
         COLUMNS.AGE_70TO79,
         COLUMNS.AGE_80PLUS
     ])
+    df[COLUMNS.TOTAL_PATIENTS] = df[COLUMNS.TOTAL_PATIENTS].astype(int)
+    return df
 
 def read_full_diagnoses_df(site_file_info):
-    return read_full_site_df(site_file_info, SITE_FILE_TYPES.DIAGNOSES, [
+    df = read_full_site_df(site_file_info, SITE_FILE_TYPES.DIAGNOSES, [
         COLUMNS.SITE_ID,
         COLUMNS.ICD_CODE,
         COLUMNS.ICD_VERSION,
         COLUMNS.NUM_PATIENTS
     ])
+    df[COLUMNS.NUM_PATIENTS] = df[COLUMNS.NUM_PATIENTS].astype(int)
+    return df
 
 def read_full_labs_df(site_file_info):
-    return read_full_site_df(site_file_info, SITE_FILE_TYPES.LABS, [
+    df = read_full_site_df(site_file_info, SITE_FILE_TYPES.LABS, [
         COLUMNS.SITE_ID,
         COLUMNS.LOINC,
         COLUMNS.DAYS_SINCE_POSITIVE,
@@ -114,6 +122,11 @@ def read_full_labs_df(site_file_info):
         COLUMNS.MEAN_VALUE,
         COLUMNS.STDEV_VALUE
     ])
+    df[COLUMNS.NUM_PATIENTS] = df[COLUMNS.NUM_PATIENTS].astype(int)
+    df[COLUMNS.DAYS_SINCE_POSITIVE] = df[COLUMNS.DAYS_SINCE_POSITIVE].astype(int)
+    df[COLUMNS.MEAN_VALUE] = df[COLUMNS.MEAN_VALUE].astype(float)
+    df[COLUMNS.STDEV_VALUE] = df[COLUMNS.STDEV_VALUE].astype(float)
+    return df
 
 """
 Helpers for reading all of the latest data for each site file type.
