@@ -174,7 +174,6 @@ def read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS):
     columns = get_combined_columns(ft)
     df = pd.read_csv(file_info["file_path"])
     df = df.rename(columns=dict(zip(range(len(columns)), columns)))
-    print(df)
     return df
 
 def read_combined_daily_counts_df():
