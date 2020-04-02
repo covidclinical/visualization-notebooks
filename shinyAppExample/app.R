@@ -47,7 +47,7 @@ ui <- fluidPage(
                             "ICD10" = 10)), 
               br(), 
               sliderInput("patients", "Number of patients:",
-                          min = 0, max = 500, value = c(2,250)
+                          min = 1, max = 500, value = c(2,250)
               )
             
         ),
@@ -57,7 +57,7 @@ ui <- fluidPage(
                       tabPanel("Daily Counts", plotOutput("dailyCounts")),
                       tabPanel("Demographics", plotOutput("sexByAge"), plotOutput("sexPlot")), 
                       tabPanel("Laboratory", plotOutput("lab")),
-                      tabPanel("Diagnosis", plotOutput("diag"),DT::dataTableOutput('icdDesc'))
+                      tabPanel("Diagnosis", plotOutput("diagSelection"),plotOutput("diagRemove"),DT::dataTableOutput('icdDesc'))
                                
                   
       )
@@ -102,7 +102,11 @@ server <- function(input, output) {
     diagnosis <- diagnosis[, c("siteid", "icd_code", "icd_version", "num_patients")]
     diagnosis$num_patients <- as.numeric( diagnosis$num_patients)
     
-    icdMapping <- read.delim("./icdMappingFileComplete.txt", 
+    #icdMapping <- read.delim("./icdMappingFileComplete.txt", 
+    #                         sep = "\t", 
+    #                         colClasses = "character", 
+    #                         header = TRUE )
+    icdMapping <- read.delim("./mappingICD_CCS", 
                              sep = "\t", 
                              colClasses = "character", 
                              header = TRUE )
@@ -166,32 +170,40 @@ server <- function(input, output) {
                                     y=mean_value, 
                                     group=labTest)) +
           geom_line(aes(col=labTest))+
-          geom_point() + theme(legend.position="bottom", legend.direction="vertical")+
+          facet_wrap( ~ factor(labTest), ncol = 2, scales = "free")+
+          theme(legend.position="none", axis.text.y = element_text(size=5))+
+          xlim(-16, 33) +
           labs(title = "Lab test mean value", 
-               x = "days since positive", y = "lab test mean value")
-        
+               x = "days since positive", y = "")        
         
       }else{
         laboratorySelection <- laboratory[ laboratory$labTest == input$lbTest,]
-        ggplot(data=laboratorySelection, aes(x=days_since_positive, 
+        ggplot(data=laboratory, aes(x=days_since_positive, 
                                     y=mean_value, 
                                     group=labTest)) +
           geom_line(aes(col=labTest))+
-          geom_point() + theme(legend.position="bottom", legend.direction="vertical")+
+          facet_wrap( ~ factor(labTest), ncol = 2, scales = "free")+
+          theme(legend.position="none", axis.text.y = element_text(size=5))+
+          xlim(-16, 33) +
           labs(title = "Lab test mean value", 
-               x = "days since positive", y = "lab test mean value")
-
+               x = "days since positive", y = "")
         
       }
             })
-    
-    output$diag <- renderPlot({
+ 
+    output$diagSelection <- renderPlot({
+      
+      diagnosis <- diagnosis[-grep("coronavirus", tolower(diagnosis$ICDdescription) ), ]
+      diagnosis <- diagnosis[-grep("respiratory", tolower(diagnosis$Category)), ]
+      diagnosis <- diagnosis[-grep("pulmonary", tolower(diagnosis$Category)), ]
+      diagnosis <- diagnosis[-grep("pneumonia", tolower(diagnosis$ICDdescription )), ]
       
       diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
                                 diagnosis$num_patients <= input$patients[2], ]
   
         if( input$icdVersion != "all"){
             diagSelection <- diagnosis[ diagnosis$icd_version == input$icdVersion, ]
+            diagSelection <- diagSelection[ diagSelection$Category != "", ]
             ggplot(data=diagSelection, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+
@@ -200,6 +212,8 @@ server <- function(input, output) {
               theme_bw()
             
           }else{
+            diagnosis <- diagnosis[ diagnosis$Category != "", ]
+            
             ggplot(data=diagnosis, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
                 theme(axis.text.x = element_text(angle =45, hjust = 1))+
@@ -209,20 +223,52 @@ server <- function(input, output) {
             
         }
     })
+    output$diagRemove <- renderPlot({
+      
+      diagnosisCovid <- diagnosis[grep("coronavirus", tolower(diagnosis$ICDdescription )), ]
+      diagnosisResp <- diagnosis[grep("respiratory", tolower(diagnosis$Category)), ]
+      diagnosisPneumonia <- diagnosis[grep("pneumonia", tolower(diagnosis$ICDdescription )), ]
+      diagnosisPulmonary <- diagnosis[grep("pulmonary", tolower(diagnosis$Category)), ]
+      
+      diagnosis <- rbind( diagnosisCovid, diagnosisResp,diagnosisPneumonia, diagnosisPulmonary )
+      
+      diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
+                                diagnosis$num_patients <= input$patients[2], ]
+      
+      if( input$icdVersion != "all"){
+        diagSelection <- diagnosis[ diagnosis$icd_version == input$icdVersion, ]
+        ggplot(data=diagSelection, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
+          geom_bar(stat="identity", position=position_dodge()) + 
+          theme(axis.text.x = element_text(angle =45, hjust = 1))+
+          labs(title = "Number of patients by ICD9/ICD10 code", 
+               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+
+          theme_bw()
+        
+      }else{
+        ggplot(data=diagnosis, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
+          geom_bar(stat="identity", position=position_dodge()) + 
+          theme(axis.text.x = element_text(angle =45, hjust = 1))+
+          labs(title = "Number of patients by ICD9/ICD10 code", 
+               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+theme_bw()
+        
+        
+      }
+    
+      }) 
     output$icdDesc <- DT::renderDataTable(
       
       if( input$icdVersion != "all"){
         diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
                                   diagnosis$num_patients <= input$patients[2], ]
-        doutp <- diagnosis[ diagnosis$ICDversion == input$icdVersion,  c("num_patients","icd_code", "ICDdescription", "ICDversion")]
-        colnames(doutp) <- c("NumberOfPatients", "ICDcode", "ICDdescription", "ICDversion")
+        doutp <- diagnosis[ diagnosis$ICDversion == input$icdVersion,  c("num_patients","icd_code", "ICDdescription", "ICDversion", "Category")]
+        colnames(doutp) <- c("NumberOfPatients", "ICDcode", "ICDdescription", "ICDversion", "Category")
         doutp[ order( doutp$NumberOfPatients, decreasing = TRUE), ]
       }
       else{
         diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
                                   diagnosis$num_patients <= input$patients[2], ]
-        doutp <- diagnosis[, c("num_patients","icd_code", "ICDdescription", "ICDversion")]
-        colnames(doutp) <- c("NumberOfPatients", "ICDcode", "ICDdescription", "ICDversion")
+        doutp <- diagnosis[, c("num_patients","icd_code", "ICDdescription", "ICDversion", "Category")]
+        colnames(doutp) <- c("NumberOfPatients", "ICDcode", "ICDdescription", "ICDversion", "Category")
         doutp[ order( doutp$NumberOfPatients, decreasing = TRUE), ]
       }
       ,rownames = FALSE)
