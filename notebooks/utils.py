@@ -419,7 +419,7 @@ def apply_theme(base, legend_orient="top-left"):
     return base.configure_axis(
         labelFontSize=14,
         labelFontWeight=300,
-        titleFontSize=18,
+        titleFontSize=14,
         titleFontWeight=300,
         labelLimit=1000,
     ).configure_title(fontSize=18, fontWeight=400, anchor="middle"
@@ -451,7 +451,8 @@ def apply_trellis_theme(base):
         # grid=False
     ).configure_title(
         fontSize=22, fontWeight=400, anchor="middle",
-        dx=160, dy=-15
+        dx=100
+        # dx=160, dy=-15
         # dx=382, dy=35
     ).configure_legend(
         titleFontSize=18, titleFontWeight=400,
@@ -469,7 +470,7 @@ def apply_trellis_theme(base):
         # titleFontWeight=300,
         labelFontSize=18,
     ).configure_concat(
-        spacing=-50
+        spacing=-100
     ).configure_facet(
         spacing=6
     )

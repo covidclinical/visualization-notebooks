@@ -25,6 +25,7 @@ class COLUMNS:
     NUM_PATIENTS = "num_patients"
     MEAN_VALUE = "mean_value"
     STDEV_VALUE = "stdev_value"
+    STDEV_VAL = "stdev_val"
     ICD_CODE = "icd_code"
     ICD_VERSION = "icd_version"
     NEW_POSITIVE_CASES = "new_positive_cases"
