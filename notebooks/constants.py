@@ -11,7 +11,9 @@ SITE_FILE_REGEX = r"(.*)(?P<year>[\d]{{4}})-(?P<month>[\d]{{2}})-(?P<day>[\d]{{2
 
 # Standard column names
 class COLUMNS:
-    # Site-level
+    """
+    Site-level
+    """
     SITE_ID = "siteid"
     DATE = "date"
     LOINC = "loinc"
@@ -37,7 +39,64 @@ class COLUMNS:
     AGE_70TO79 = "age_70to79"
     AGE_80PLUS = "age_80plus"
 
-    # Patient-level
+    """
+    Combined site-level
+    """
+    # DailyCounts
+    UNMASKED_SITES_NEW_POSITIVE_CASES = "unmasked_sites_new_positive_cases"
+    UNMASKED_SITES_PATIENTS_IN_ICU = "unmasked_sites_patients_in_icu"
+    UNMASKED_SITES_NEW_DEATHS = "unmasked_sites_new_deaths"
+    MASKED_SITES_NEW_POSITIVE_CASES = "masked_sites_new_positive_cases"
+    MASKED_SITES_PATIENTS_IN_ICU = "masked_sites_patients_in_icu"
+    MASKED_SITES_NEW_DEATHS = "masked_sites_new_deaths"
+    MASKED_UPPER_BOUND_NEW_POSITIVE_CASES = "masked_upper_bound_new_positive_cases"
+    MASKED_UPPER_BOUND_PATIENTS_IN_ICU = "masked_upper_bound_patients_in_icu"
+    MASKED_UPPER_BOUND_NEW_DEATHS = "masked_upper_bound_new_deaths"
+
+    # Demographics
+    UNMASKED_SITES_TOTAL_PATIENTS = "unmasked_sites_total_patients"
+    UNMASKED_SITES_AGE_0TO2 = "unmasked_sites_age_0to2"
+    UNMASKED_SITES_AGE_3TO5 = "unmasked_sites_age_3to5"
+    UNMASKED_SITES_AGE_6TO11 = "unmasked_sites_age_6to11"
+    UNMASKED_SITES_AGE_12TO17 = "unmasked_sites_age_12to17"
+    UNMASKED_SITES_AGE_18TO25 = "unmasked_sites_age_18to25"
+    UNMASKED_SITES_AGE_26TO49 = "unmasked_sites_age_26to49"
+    UNMASKED_SITES_AGE_50TO69 = "unmasked_sites_age_50to69"
+    UNMASKED_SITES_AGE_70TO79 = "unmasked_sites_age_70to79"
+    UNMASKED_SITES_AGE_80PLUS = "unmasked_sites_age_80plus"
+    MASKED_SITES_TOTAL_PATIENTS = "masked_sites_total_patients"
+    MASKED_SITES_AGE_0TO2 = "masked_sites_age_0to2"
+    MASKED_SITES_AGE_3TO5 = "masked_sites_age_3to5"
+    MASKED_SITES_AGE_6TO11 = "masked_sites_age_6to11"
+    MASKED_SITES_AGE_12TO17 = "masked_sites_age_12to17"
+    MASKED_SITES_AGE_18TO25 = "masked_sites_age_18to25"
+    MASKED_SITES_AGE_26TO49 = "masked_sites_age_26to49"
+    MASKED_SITES_AGE_50TO69 = "masked_sites_age_50to69"
+    MASKED_SITES_AGE_70TO79 = "masked_sites_age_70to79"
+    MASKED_SITES_AGE_80PLUS = "masked_sites_age_80plus"
+    MASKED_UPPER_BOUND_TOTAL_PATIENTS = "masked_upper_bound_total_patients"
+    MASKED_UPPER_BOUND_AGE_0TO2 = "masked_upper_bound_age_0to2"
+    MASKED_UPPER_BOUND_AGE_3TO5 = "masked_upper_bound_age_3to5"
+    MASKED_UPPER_BOUND_AGE_6TO11 = "masked_upper_bound_age_6to11"
+    MASKED_UPPER_BOUND_AGE_12TO17 = "masked_upper_bound_age_12to17"
+    MASKED_UPPER_BOUND_AGE_18TO25 = "masked_upper_bound_age_18to25"
+    MASKED_UPPER_BOUND_AGE_26TO49 = "masked_upper_bound_age_26to49"
+    MASKED_UPPER_BOUND_AGE_50TO69 = "masked_upper_bound_age_50to69"
+    MASKED_UPPER_BOUND_AGE_70TO79 = "masked_upper_bound_age_70to79"
+    MASKED_UPPER_BOUND_AGE_80PLUS = "masked_upper_bound_age_80plus"
+
+    # Diagnoses
+    MASKED_SITES_NUM_PATIENTS = "masked_sites_num_patients"
+    MASKED_UPPER_BOUND_NUM_PATIENTS = "masked_upper_bound_num_patients"
+
+    # Labs
+    UNMASKED_SITES_NUM_PATIENTS = "unmasked_sites_num_patients"
+    MASKED_SITES_NUM_PATIENTS = "masked_sites_num_patients"
+    MASKED_UPPER_BOUND_NUM_PATIENTS = "masked_upper_bound_num_patients"
+
+    """
+    Patient-level
+    """
     PATIENT_ID = "patient_id"
     TIMESTAMP = "timestamp"
     EVENT = "event"
