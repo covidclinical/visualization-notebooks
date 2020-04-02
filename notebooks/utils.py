@@ -11,8 +11,10 @@ from constants import (
     COLUMNS,
     DATA_DIR,
     SITE_DATA_GLOB, 
-    SITE_FILE_REGEX, 
-    SITE_FILE_TYPES, 
+    SITE_FILE_REGEX,
+    COMBINED_DATA_GLOB,
+    COMBINED_DATA_REGEX,
+    SITE_FILE_TYPES,
     ALL_SITE_FILE_TYPES
 )
 
@@ -53,7 +55,6 @@ def get_site_file_info_by_date(year, month, day, file_types=ALL_SITE_FILE_TYPES)
     target_date = datetime.date(year, month, day)
     all_site_file_info = get_site_file_info(file_types=file_types)
     return [ info for info in all_site_file_info if info["date"] == target_date ]
-
 
 """
 Utilities for reading in data from a list of site info for each file type.
@@ -152,6 +153,43 @@ def read_latest_labs_df():
     return read_full_labs_df(get_latest_site_file_info())
 
 """
+Helpers for reading combined datasets.
+"""
+def get_combined_file_paths():
+    return glob.glob(COMBINED_DATA_GLOB)
+
+def read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS):
+    file_paths = get_combined_file_paths()
+
+    potential_matches = [
+        (re.match(COMBINED_DATA_REGEX.format(file_type=ft), fp), ft)
+            for fp in file_paths
+    ]
+    all_file_info = [ dict(**m.groupdict(), file_type=ft, file_path=m[0]) for m, ft in potential_matches if m is not None ]
+    if len(all_file_info) != 1:
+        print("there is more than one combined files per type")
+        return None
+    file_info = all_file_info[0]
+
+    columns = get_combined_columns(ft)
+    df = pd.read_csv(file_info["file_path"])
+    df = df.rename(columns=dict(zip(range(len(columns)), columns)))
+    print(df)
+    return df
+
+def read_combined_daily_counts_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DAILY_COUNTS)
+
+def read_combined_demographics_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS)
+
+def read_combined_diagnoses_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DIAGNOSES)
+
+def read_combined_labs_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.LABS)
+
+"""
 Helpers for preprocessing datasets before visualizing them.
 """
 def preprocess_demographics_df_for_vis(df):
@@ -236,6 +274,94 @@ def read_icd_df():
 
 def read_loinc_df():
     return pd.read_csv(join(DATA_DIR, "labMap.csv"), header=0)
+
+"""
+Helpers to make columns by data types.
+"""
+def get_combined_columns(filetype):
+    if filetype == SITE_FILE_TYPES.DAILY_COUNTS:
+        return [
+            COLUMNS.SITE_ID,
+            COLUMNS.DATE,
+            COLUMNS.NEW_POSITIVE_CASES,
+            COLUMNS.PATIENTS_IN_ICU,
+            COLUMNS.NEW_DEATHS,
+            COLUMNS.UNMASKED_SITES_NEW_POSITIVE_CASES,
+            COLUMNS.UNMASKED_SITES_PATIENTS_IN_ICU,
+            COLUMNS.UNMASKED_SITES_NEW_DEATHS,
+            COLUMNS.MASKED_SITES_NEW_POSITIVE_CASES,
+            COLUMNS.MASKED_SITES_PATIENTS_IN_ICU,
+            COLUMNS.MASKED_SITES_NEW_DEATHS,
+            COLUMNS.MASKED_UPPER_BOUND_NEW_POSITIVE_CASES,
+            COLUMNS.MASKED_UPPER_BOUND_PATIENTS_IN_ICU,
+            COLUMNS.MASKED_UPPER_BOUND_NEW_DEATHS
+        ]
+    elif filetype == SITE_FILE_TYPES.DEMOGRAPHICS:
+        return [
+            COLUMNS.SITE_ID,
+            COLUMNS.SEX,
+            COLUMNS.TOTAL_PATIENTS,
+            COLUMNS.AGE_0TO2,
+            COLUMNS.AGE_3TO5,
+            COLUMNS.AGE_6TO11,
+            COLUMNS.AGE_12TO17,
+            COLUMNS.AGE_18TO25,
+            COLUMNS.AGE_26TO49,
+            COLUMNS.AGE_50TO69,
+            COLUMNS.AGE_70TO79,
+            COLUMNS.AGE_80PLUS,
+            COLUMNS.UNMASKED_SITES_TOTAL_PATIENTS,
+            COLUMNS.UNMASKED_SITES_AGE_0TO2,
+            COLUMNS.UNMASKED_SITES_AGE_3TO5,
+            COLUMNS.UNMASKED_SITES_AGE_6TO11,
+            COLUMNS.UNMASKED_SITES_AGE_12TO17,
+            COLUMNS.UNMASKED_SITES_AGE_18TO25,
+            COLUMNS.UNMASKED_SITES_AGE_26TO49,
+            COLUMNS.UNMASKED_SITES_AGE_50TO69,
+            COLUMNS.UNMASKED_SITES_AGE_70TO79,
+            COLUMNS.UNMASKED_SITES_AGE_80PLUS,
+            COLUMNS.MASKED_SITES_TOTAL_PATIENTS,
+            COLUMNS.MASKED_SITES_AGE_0TO2,
+            COLUMNS.MASKED_SITES_AGE_3TO5,
+            COLUMNS.MASKED_SITES_AGE_6TO11,
+            COLUMNS.MASKED_SITES_AGE_12TO17,
+            COLUMNS.MASKED_SITES_AGE_18TO25,
+            COLUMNS.MASKED_SITES_AGE_26TO49,
+            COLUMNS.MASKED_SITES_AGE_50TO69,
+            COLUMNS.MASKED_SITES_AGE_70TO79,
+            COLUMNS.MASKED_SITES_AGE_80PLUS,
+            COLUMNS.MASKED_UPPER_BOUND_TOTAL_PATIENTS,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_0TO2,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_3TO5,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_6TO11,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_12TO17,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_18TO25,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_26TO49,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_50TO69,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_70TO79,
+            COLUMNS.MASKED_UPPER_BOUND_AGE_80PLUS
+        ]
+    elif filetype == SITE_FILE_TYPES.DIAGNOSES:
+        return [
+            COLUMNS.SITE_ID,
+            COLUMNS.ICD_CODE,
+            COLUMNS.ICD_VERSION,
+            COLUMNS.NUM_PATIENTS,
+            COLUMNS.MASKED_SITES_NUM_PATIENTS,
+            COLUMNS.MASKED_UPPER_BOUND_NUM_PATIENTS,
+        ]
+    elif filetype == SITE_FILE_TYPES.LABS:
+        return [
+            COLUMNS.SITE_ID,
+            COLUMNS.LOINC,
+            COLUMNS.DAYS_SINCE_POSITIVE,
+            COLUMNS.NUM_PATIENTS,
+            COLUMNS.MEAN_VALUE,
+            COLUMNS.STDEV_VALUE,
+            COLUMNS.UNMASKED_SITES_NUM_PATIENTS,
+            COLUMNS.MASKED_SITES_NUM_PATIENTS,
+            COLUMNS.MASKED_UPPER_BOUND_NUM_PATIENTS
+        ]
 
 """
 Utilities to manipulating data.
