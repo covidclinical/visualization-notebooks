@@ -90,6 +90,7 @@ class COLUMNS:
     MASKED_UPPER_BOUND_AGE_80PLUS = "masked_upper_bound_age_80plus"
 
     # Diagnoses
+    UNMASKED_SITES_NUM_PATIENTS = "unmasked_sites_num_patients"
     MASKED_SITES_NUM_PATIENTS = "masked_sites_num_patients"
     MASKED_UPPER_BOUND_NUM_PATIENTS = "masked_upper_bound_num_patients"
 
