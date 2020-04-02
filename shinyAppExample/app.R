@@ -101,7 +101,7 @@ server <- function(input, output) {
                             header = TRUE, sep = ",", colClasses = "character")
     diagnosis <- diagnosis[, c("siteid", "icd_code", "icd_version", "num_patients")]
     diagnosis$num_patients <- as.numeric( diagnosis$num_patients)
-    
+    diagnosis <- diagnosis[ diagnosis$icd_code != "309158009", ]
     #icdMapping <- read.delim("./icdMappingFileComplete.txt", 
     #                         sep = "\t", 
     #                         colClasses = "character", 
@@ -197,6 +197,9 @@ server <- function(input, output) {
       diagnosis <- diagnosis[-grep("respiratory", tolower(diagnosis$Category)), ]
       diagnosis <- diagnosis[-grep("pulmonary", tolower(diagnosis$Category)), ]
       diagnosis <- diagnosis[-grep("pneumonia", tolower(diagnosis$ICDdescription )), ]
+      diagnosis <- diagnosis[-grep("viral", tolower(diagnosis$Category )), ]
+      diagnosis <- diagnosis[-grep("viral", tolower(diagnosis$ICDdescription )), ]
+      diagnosis <- diagnosis[-grep("virus", tolower(diagnosis$ICDdescription )), ]
       
       diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
                                 diagnosis$num_patients <= input$patients[2], ]
@@ -206,19 +209,20 @@ server <- function(input, output) {
             diagSelection <- diagSelection[ diagSelection$Category != "", ]
             ggplot(data=diagSelection, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
-                theme(axis.text.x = element_text(angle =45, hjust = 1))+
-              labs(title = "Number of patients by ICD9/ICD10 code", 
-                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+
-              theme_bw()
+              theme_bw()+
+                theme(axis.text.x = element_text(angle =45, hjust = 1), axis.text.y = element_text(size=5))+
+              labs(title = paste0("Number of patients by ICD9/ICD10 code (>=",input$patients[1],"patients)" ), 
+                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()
             
           }else{
             diagnosis <- diagnosis[ diagnosis$Category != "", ]
             
             ggplot(data=diagnosis, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
                 geom_bar(stat="identity", position=position_dodge()) + 
-                theme(axis.text.x = element_text(angle =45, hjust = 1))+
-              labs(title = "Number of patients by ICD9/ICD10 code", 
-                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+theme_bw()
+                theme_bw()+
+              theme(axis.text.x = element_text(angle =45, hjust = 1), axis.text.y = element_text(size=5))+
+              labs(title = paste0("Number of patients by ICD9/ICD10 code (>=",input$patients[1],"patients)" ), 
+                   x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()
 
             
         }
@@ -229,8 +233,13 @@ server <- function(input, output) {
       diagnosisResp <- diagnosis[grep("respiratory", tolower(diagnosis$Category)), ]
       diagnosisPneumonia <- diagnosis[grep("pneumonia", tolower(diagnosis$ICDdescription )), ]
       diagnosisPulmonary <- diagnosis[grep("pulmonary", tolower(diagnosis$Category)), ]
+      diagnosisViral <- diagnosis[grep("viral", tolower(diagnosis$Category )), ]
+      diagnosisViral2 <- diagnosis[grep("viral", tolower(diagnosis$ICDdescription )), ]
+      diagnosisVirus <- diagnosis[grep("virus", tolower(diagnosis$ICDdescription )), ]
       
-      diagnosis <- rbind( diagnosisCovid, diagnosisResp,diagnosisPneumonia, diagnosisPulmonary )
+      diagnosis <- rbind( diagnosisCovid, diagnosisResp,diagnosisPneumonia, 
+                          diagnosisPulmonary, diagnosisViral, diagnosisViral2, 
+                          diagnosisVirus)
       
       diagnosis <- diagnosis[ diagnosis$num_patients >= input$patients[1] & 
                                 diagnosis$num_patients <= input$patients[2], ]
@@ -238,18 +247,19 @@ server <- function(input, output) {
       if( input$icdVersion != "all"){
         diagSelection <- diagnosis[ diagnosis$icd_version == input$icdVersion, ]
         ggplot(data=diagSelection, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
-          geom_bar(stat="identity", position=position_dodge()) + 
-          theme(axis.text.x = element_text(angle =45, hjust = 1))+
+          geom_bar(stat="identity", position=position_dodge())+
+          theme_bw() + 
+          theme(axis.text.x = element_text(angle =45, hjust = 1), axis.text.y = element_text(size=7))+
           labs(title = "Number of patients by ICD9/ICD10 code", 
-               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+
-          theme_bw()
+               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()
         
       }else{
         ggplot(data=diagnosis, aes(x=reorder(ICDdescription,num_patients), y=num_patients)) +
-          geom_bar(stat="identity", position=position_dodge()) + 
-          theme(axis.text.x = element_text(angle =45, hjust = 1))+
+          geom_bar(stat="identity", position=position_dodge()) +
+          theme_bw()+ 
+          theme(axis.text.x = element_text(angle =45, hjust = 1), axis.text.y = element_text(size=7))+
           labs(title = "Number of patients by ICD9/ICD10 code", 
-               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()+theme_bw()
+               x = "ICD9/ICD10 code", y = "number of patients")+ coord_flip()
         
         
       }
