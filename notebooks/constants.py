@@ -5,7 +5,7 @@ from os import listdir
 # DATA_DIR = join("..", "fakedata") # Use this line to test with fake datasets
 DATA_DIR = join("..", "data")
 
-LOOKUP_DATA_DIR = join("..", "lookup-tables")
+LOOKUP_DATA_DIR = join("..", "lookup_tables")
 
 SITE_DATA_DIR = join(DATA_DIR, "site_level_data")
 SITE_DATA_GLOB = join(SITE_DATA_DIR, "*", "*.csv")
