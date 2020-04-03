@@ -1,0 +1,15 @@
+labTest	loinc	unit
+White blood cell count	6690-2	10*3/uL
+Neutrophil count	751-8	10*3/uL
+Lymphocyte count	731-0	10*3/uL
+Albumin	1751-7	g/dL
+Lactate dehydrogenase	2532-0	U/L
+Alanine aminotransferase	1742-6	U/L
+Aspartate aminotransferase	1920-8	U/L
+Total bilirubin	1975-2	mg/dL
+Creatinine	2160-0	mg/dL
+Cardiac troponin	49563-0	ng/mL
+D-dimer	7799-0	-1
+Prothrombin time	5902-2	s
+Procalcitonin	33959-8	ng/mL
+C-reactive protein	1988-5	mg/dL

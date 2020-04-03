@@ -10,6 +10,7 @@ from os.path import join
 from constants import (
     COLUMNS,
     DATA_DIR,
+    LOOKUP_DATA_DIR,
     SITE_DATA_GLOB, 
     SITE_FILE_REGEX,
     COMBINED_DATA_GLOB,
@@ -269,10 +270,10 @@ def preprocess_labs_df_for_vis(df):
 Helpers for reading additional data files.
 """
 def read_icd_df():
-    return pd.read_csv(join(DATA_DIR, "mappingICD_CCS.txt"), sep="\t", header=0)
+    return pd.read_csv(join(LOOKUP_DATA_DIR, "icd-table.txt"), sep="\t", header=0)
 
 def read_loinc_df():
-    return pd.read_csv(join(DATA_DIR, "labMap.csv"), header=0)
+    return pd.read_csv(join(LOOKUP_DATA_DIR, "lab-table.txt"), sep="\t", header=0)
 
 """
 Helpers to make columns by data types.

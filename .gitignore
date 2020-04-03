@@ -1,6 +1,9 @@
 # Data
 data/
 
+# Saved PNG files
+output/
+
 .DS_Store
 .vscode/
 
