@@ -435,6 +435,8 @@ def apply_theme(base, legend_orient="top-left"):
     ).configure_view(
         # stroke="black",
         # strokeWidth=3
+    ).configure_concat(
+        # spacing=-100
     )
 
 def apply_trellis_theme(base):
