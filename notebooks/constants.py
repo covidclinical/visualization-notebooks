@@ -14,6 +14,8 @@ SITE_FILE_REGEX = r"(.*)(?P<year>[\d]{{4}})-(?P<month>[\d]{{2}})-(?P<day>[\d]{{2
 COMBINED_DATA_DIR = join(DATA_DIR, "combined")
 COMBINED_DATA_GLOB = join(COMBINED_DATA_DIR, "*.csv")
 COMBINED_DATA_REGEX = r"(.*){file_type}-Combined(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
+COMBINED_COUNTRY_LEVEL_DATA_REGEX = r"(.*){file_type}-CombinedByCountry(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
+COMBINED_SITE_LEVEL_DATA_REGEX = r"(.*){file_type}-CombinedBySite(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
 
 # Standard column names
 class COLUMNS:
@@ -135,3 +137,8 @@ ALL_SITE_FILE_TYPES = [
     SITE_FILE_TYPES.DIAGNOSES,
     SITE_FILE_TYPES.LABS
 ]
+
+class DATA_AGGREGATE_TYPES:
+    COMBINED_ALL = "CombinedAll"
+    COMBINED_BY_COUNTRY = "CombinedByCountry"
+    COMBINED_BY_SITE = "CombinedBySite"

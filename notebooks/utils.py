@@ -15,8 +15,11 @@ from constants import (
     SITE_FILE_REGEX,
     COMBINED_DATA_GLOB,
     COMBINED_DATA_REGEX,
+    COMBINED_COUNTRY_LEVEL_DATA_REGEX,
+    COMBINED_SITE_LEVEL_DATA_REGEX,
     SITE_FILE_TYPES,
-    ALL_SITE_FILE_TYPES
+    ALL_SITE_FILE_TYPES,
+    DATA_AGGREGATE_TYPES
 )
 
 """
@@ -159,11 +162,17 @@ Helpers for reading combined datasets.
 def get_combined_file_paths():
     return glob.glob(COMBINED_DATA_GLOB)
 
-def read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS):
+def read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS, agg=DATA_AGGREGATE_TYPES.COMBINED_ALL):
     file_paths = get_combined_file_paths()
 
+    regex = COMBINED_DATA_REGEX
+    if agg == DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY:
+        regex = COMBINED_COUNTRY_LEVEL_DATA_REGEX
+    elif agg == DATA_AGGREGATE_TYPES.COMBINED_BY_SITE:
+        regex = COMBINED_SITE_LEVEL_DATA_REGEX
+
     potential_matches = [
-        (re.match(COMBINED_DATA_REGEX.format(file_type=ft), fp), ft)
+        (re.match(regex.format(file_type=ft), fp), ft)
             for fp in file_paths
     ]
     all_file_info = [ dict(**m.groupdict(), file_type=ft, file_path=m[0]) for m, ft in potential_matches if m is not None ]
@@ -188,6 +197,18 @@ def read_combined_diagnoses_df():
 
 def read_combined_labs_df():
     return read_combined_file_df(ft=SITE_FILE_TYPES.LABS)
+
+def read_combined_by_country_daily_counts_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DAILY_COUNTS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY)
+
+def read_combined_by_country_demographics_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY)
+
+def read_combined_by_country_diagnoses_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DIAGNOSES, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY)
+
+def read_combined_by_country_labs_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.LABS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY)
 
 """
 Helpers for preprocessing datasets before visualizing them.
@@ -423,7 +444,7 @@ def apply_theme(base, legend_orient="top-left"):
         titleFontSize=14,
         titleFontWeight=300,
         labelLimit=1000,
-    ).configure_title(fontSize=18, fontWeight=400, anchor="middle"
+    ).configure_title(fontSize=18, fontWeight=400, anchor="start", align="left"
     ).configure_legend(
         titleFontSize=18, titleFontWeight=400,
         labelFontSize=16, labelFontWeight=300,
@@ -453,7 +474,7 @@ def apply_trellis_theme(base):
         tickColor="lightgray"
         # grid=False
     ).configure_title(
-        fontSize=22, fontWeight=400, anchor="middle",
+        fontSize=22, fontWeight=400, anchor="start",
         dx=100
         # dx=160, dy=-15
         # dx=382, dy=35
@@ -486,7 +507,7 @@ def apply_grouped_bar_theme(base, legend_orient="top-left", strokeColor=None):
         titleFontWeight=300,
         labelLimit=1000,
         # grid=False
-    ).configure_title(fontSize=18, fontWeight=400, anchor="middle"
+    ).configure_title(fontSize=18, fontWeight=400, align="left", anchor="start"
     ).configure_legend(
         titleFontSize=18, titleFontWeight=400,
         labelFontSize=16, labelFontWeight=300,
