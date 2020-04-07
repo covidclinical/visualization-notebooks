@@ -444,6 +444,7 @@ def apply_theme(base, legend_orient="top-left", legend_stroke_color="lightgray",
         titleFontSize=16,
         titleFontWeight=300,
         labelLimit=1000,
+        labelAngle=0
     ).configure_title(fontSize=18, fontWeight=400, anchor="start", align="left"
     ).configure_legend(
         titleFontSize=16, titleFontWeight=400,
