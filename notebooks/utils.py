@@ -437,22 +437,22 @@ def add_aligned_time_steps_column(df, qfield, datefield, gte):
 """
 Utilities to customize visualizations.
 """
-def apply_theme(base, legend_orient="top-left", legend_stroke_color="lightgray"):
+def apply_theme(base, legend_orient="top-left", legend_stroke_color="lightgray", legend_padding=10):
     return base.configure_axis(
         labelFontSize=14,
         labelFontWeight=300,
-        titleFontSize=14,
+        titleFontSize=16,
         titleFontWeight=300,
         labelLimit=1000,
     ).configure_title(fontSize=18, fontWeight=400, anchor="start", align="left"
     ).configure_legend(
-        titleFontSize=18, titleFontWeight=400,
-        labelFontSize=16, labelFontWeight=300,
-        padding=10,
+        titleFontSize=16, titleFontWeight=400,
+        labelFontSize=14, labelFontWeight=300,
+        padding=legend_padding,
         cornerRadius=0,
         orient=legend_orient,
         fillColor="white",
-        strokeColor=legend_stroke_color
+        strokeColor=legend_stroke_color,
     ).configure_view(
         # stroke="black",
         # strokeWidth=3
