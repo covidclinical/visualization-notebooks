@@ -210,6 +210,18 @@ def read_combined_by_country_diagnoses_df():
 def read_combined_by_country_labs_df():
     return read_combined_file_df(ft=SITE_FILE_TYPES.LABS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_COUNTRY)
 
+def read_combined_by_site_daily_counts_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DAILY_COUNTS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
+
+def read_combined_by_site_demographics_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
+
+def read_combined_by_site_diagnoses_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.DIAGNOSES, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
+
+def read_combined_by_site_labs_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.LABS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
+
 """
 Helpers for preprocessing datasets before visualizing them.
 """
