@@ -12,3 +12,4 @@ dependencies:
   - altair
   - ipywidgets
   - python-dateutil
+  - altair_saver
