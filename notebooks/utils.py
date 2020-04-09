@@ -457,7 +457,11 @@ def apply_theme(base, legend_orient="top-left", legend_stroke_color="lightgray",
         titleFontWeight=300,
         labelLimit=1000,
         labelAngle=0
-    ).configure_title(fontSize=18, fontWeight=400, anchor="start", align="left"
+    ).configure_title(
+        fontSize=18,
+        fontWeight=400,
+        anchor="start",
+        align="left"
     ).configure_legend(
         titleFontSize=16, titleFontWeight=400,
         labelFontSize=14, labelFontWeight=300,
@@ -467,10 +471,7 @@ def apply_theme(base, legend_orient="top-left", legend_stroke_color="lightgray",
         fillColor="white",
         strokeColor=legend_stroke_color,
     ).configure_view(
-        # stroke="black",
-        # strokeWidth=3
     ).configure_concat(
-        # spacing=-100
     )
 
 def apply_trellis_theme(base):
@@ -489,22 +490,16 @@ def apply_trellis_theme(base):
     ).configure_title(
         fontSize=22, fontWeight=400, anchor="start",
         dx=100
-        # dx=160, dy=-15
-        # dx=382, dy=35
     ).configure_legend(
         titleFontSize=18, titleFontWeight=400,
         labelFontSize=16, labelFontWeight=300,
         padding=10,
         cornerRadius=0,
         labelLimit=1000,
-        # strokeColor="lightgray"
     ).configure_view(
         stroke="lightgray",
         strokeWidth=2
-        # strokeOpacity=0
     ).configure_header(
-        # titleFontSize=18,
-        # titleFontWeight=300,
         labelFontSize=18,
     ).configure_concat(
         spacing=-100
@@ -519,7 +514,6 @@ def apply_grouped_bar_theme(base, legend_orient="top-left", strokeColor=None):
         titleFontSize=18,
         titleFontWeight=300,
         labelLimit=1000,
-        # grid=False
     ).configure_title(fontSize=18, fontWeight=400, align="left", anchor="start"
     ).configure_legend(
         titleFontSize=18, titleFontWeight=400,
@@ -530,8 +524,6 @@ def apply_grouped_bar_theme(base, legend_orient="top-left", strokeColor=None):
         cornerRadius=0,
         orient=legend_orient
     ).configure_view(
-        # stroke=None
-        # strokeWidth=3
     ).configure_header(
         titleFontSize=16,
         titleFontWeight=300,
