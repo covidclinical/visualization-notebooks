@@ -538,3 +538,26 @@ def apply_grouped_bar_theme(base, legend_orient="top-left", strokeColor=None):
         titleFontWeight=300,
         labelFontSize=13
     )
+
+def apply_pyramid_theme(base, legend_orient="top-left", strokeColor=None):
+    return base.configure_axis(
+        labelFontSize=14,
+        labelFontWeight=300,
+        titleFontSize=18,
+        titleFontWeight=300,
+        labelLimit=1000,
+    ).configure_title(fontSize=18, fontWeight=400, anchor="middle"
+    ).configure_legend(
+        titleFontSize=18, titleFontWeight=400,
+        labelFontSize=16, labelFontWeight=300,
+        fillColor="white",
+        strokeColor=strokeColor,
+        padding=10,
+        cornerRadius=0,
+        orient=legend_orient
+    ).configure_view(
+    ).configure_header(
+        titleFontSize=16,
+        titleFontWeight=300,
+        labelFontSize=13
+    )
