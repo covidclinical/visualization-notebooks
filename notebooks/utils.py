@@ -454,6 +454,7 @@ def apply_theme(
     legend_orient="top-left",
     legend_stroke_color="lightgray",
     legend_padding=10,
+    label_font_size=14,
     axis_title_font_size=16,
     title_anchor="start"
 ):
@@ -471,7 +472,7 @@ def apply_theme(
         align="left"
     ).configure_legend(
         titleFontSize=16, titleFontWeight=400,
-        labelFontSize=14, labelFontWeight=300,
+        labelFontSize=label_font_size, labelFontWeight=300,
         padding=legend_padding,
         cornerRadius=0,
         orient=legend_orient,
