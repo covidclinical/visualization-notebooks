@@ -310,7 +310,7 @@ def read_loinc_df():
     return pd.read_csv(join(LOOKUP_DATA_DIR, "lab_table.txt"), sep="\t", header=0)
 
 def read_lab_meta_ci_df():
-    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_MetaCI.csv"), sep=",", header=0)
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_MetaCI_ran.csv"), sep=",", header=0)
 
 def read_lab_nprop_time_df():
     return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_nprop_time.csv"), sep=",", header=0)
