@@ -54,6 +54,7 @@ class COLUMNS:
     Combined site-level
     """
     NUM_SITES = "num_sites"
+    NUM_HOSPITALS = "num_hospitals"
     IS_COUNTRY = "is_country"
     # DailyCounts
     UNMASKED_SITES_NEW_POSITIVE_CASES = "unmasked_sites_new_positive_cases"
