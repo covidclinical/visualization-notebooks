@@ -321,6 +321,9 @@ def read_lab_variation_by_country_df():
 def read_lab_weights_df():
     return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_weights_for_MetaAnalysis.csv"), sep=",", header=0)
 
+def read_lab_details_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Health Systems Participating.tsv"), sep="\t", header=0)
+
 """
 Helpers to make columns by data types.
 """
