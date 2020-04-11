@@ -7,6 +7,8 @@ DATA_DIR = join("..", "data")
 
 LOOKUP_DATA_DIR = "lookup_tables"
 
+LAB_ADDITIONAL_DATA_DIR = join("..", "data", "labs")
+
 SITE_DATA_DIR = join(DATA_DIR, "site_level_data")
 SITE_DATA_GLOB = join(SITE_DATA_DIR, "*", "*.csv")
 SITE_FILE_REGEX = r"(.*)(?P<year>[\d]{{4}})-(?P<month>[\d]{{2}})-(?P<day>[\d]{{2}})_{file_type}-(?P<site_id>[\w]*).csv$"

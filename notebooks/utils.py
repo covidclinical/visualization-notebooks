@@ -11,6 +11,7 @@ from constants import (
     COLUMNS,
     DATA_DIR,
     LOOKUP_DATA_DIR,
+    LAB_ADDITIONAL_DATA_DIR,
     SITE_DATA_GLOB, 
     SITE_FILE_REGEX,
     COMBINED_DATA_GLOB,
@@ -308,6 +309,18 @@ def read_icd_df():
 def read_loinc_df():
     return pd.read_csv(join(LOOKUP_DATA_DIR, "lab_table.txt"), sep="\t", header=0)
 
+def read_lab_meta_ci_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_MetaCI.csv"), sep=",", header=0)
+
+def read_lab_nprop_time_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_nprop_time.csv"), sep=",", header=0)
+
+def read_lab_variation_by_country_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_VariationByCountry.csv"), sep=",", header=0)
+
+def read_lab_weights_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_weights_for_MetaAnalysis.csv"), sep=",", header=0)
+
 """
 Helpers to make columns by data types.
 """
@@ -456,17 +469,19 @@ def apply_theme(
     legend_padding=10,
     label_font_size=14,
     axis_title_font_size=16,
-    title_anchor="start"
+    title_anchor="start",
+    title_font_size=18,
+    axis_label_font_size=14
 ):
     return base.configure_axis(
-        labelFontSize=14,
+        labelFontSize=axis_label_font_size,
         labelFontWeight=300,
         titleFontSize=axis_title_font_size,
         titleFontWeight=300,
         labelLimit=1000,
         labelAngle=0
     ).configure_title(
-        fontSize=18,
+        fontSize=title_font_size,
         fontWeight=400,
         anchor=title_anchor,
         align="left"
@@ -477,7 +492,7 @@ def apply_theme(
         cornerRadius=0,
         orient=legend_orient,
         fillColor="white",
-        strokeColor=legend_stroke_color,
+        strokeColor=legend_stroke_color
     ).configure_view(
     ).configure_concat(
         spacing=0
