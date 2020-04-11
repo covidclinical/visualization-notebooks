@@ -13,3 +13,4 @@ dependencies:
   - ipywidgets
   - python-dateutil
   - altair_saver
+  - vega_datasets
