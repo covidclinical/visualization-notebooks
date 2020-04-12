@@ -247,6 +247,42 @@ def read_lab_weights_df():
 def read_lab_details_df():
     return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Health Systems Participating.tsv"), sep="\t", header=0)
 
+def read_site_details_df():
+    details_df = pd.read_csv(join(DATA_DIR, "Health_Systems_Participating.csv"), sep=",", header=0)
+    id_df = pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
+    details_df = details_df.set_index("Acronym")
+    id_df = id_df.set_index("Acronym")
+
+    details_df = details_df.join(id_df)
+    return details_df
+
+def get_siteid_anonymous_map():
+    df = read_site_details_df()
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Anonymous Site ID"].values.tolist()))
+
+def get_siteid_country_map():
+    df = read_site_details_df()
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Country"].values.tolist()))
+
+def get_siteid_color_maps():
+    df = read_site_details_df()
+    df = df.reset_index()
+    site_map = dict(zip(df["Acronym"].values.tolist(), df["Site Color"].values.tolist()))
+    site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
+    site_combined_map = dict(zip(df["Acronym"].values.tolist(), df["Combined Color"].values.tolist()))
+    return site_map, site_country_map, site_combined_map
+
+def get_country_color_map():
+    df = read_site_details_df()
+    df = df.reset_index()
+    df = df.drop_duplicates(subset=["Country"])
+    return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
+
+def get_combined_color():
+    return "#444444"
+
 """
 Helpers to make columns by data types.
 """
