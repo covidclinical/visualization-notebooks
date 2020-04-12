@@ -254,7 +254,7 @@ def read_site_details_df():
     return details_df
 
 def get_siteid_anonymous_map():
-    df = read_site_details_df()
+    df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
     df = df.reset_index()
     return dict(zip(df["Acronym"].values.tolist(), df["Anonymous Site ID"].values.tolist()))
 
@@ -385,6 +385,7 @@ def apply_theme(
     title_font_size=18,
     axis_title_font_size=16,
     axis_label_font_size=14,
+    label_angle=0,
     legend_orient="top-left",
     legend_stroke_color="lightgray",
     legend_padding=10,
@@ -407,7 +408,7 @@ def apply_theme(
         titleFontSize=axis_title_font_size,
         titleFontWeight=300,
         labelLimit=1000,
-        labelAngle=0
+        # labelAngle=label_angle
     ).configure_legend(
         titleFontSize=16, titleFontWeight=400,
         labelFontSize=label_font_size, labelFontWeight=300,
