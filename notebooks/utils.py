@@ -286,7 +286,10 @@ def get_country_color_map():
     return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
 
 def get_combined_color():
-    return "#444444"
+    df = read_site_details_df()
+    colors = df["Combined Color"].unique().tolist()
+    assert(len(colors) == 1)
+    return colors[0]
 
 """
 Helpers to make columns by data types.
