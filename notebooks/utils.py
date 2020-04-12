@@ -388,6 +388,7 @@ def apply_theme(
     title_font_size=18,
     axis_title_font_size=16,
     axis_label_font_size=14,
+    axis_title_padding=10,
     label_angle=0,
     legend_orient="top-left",
     legend_stroke_color="lightgray",
@@ -411,6 +412,7 @@ def apply_theme(
         titleFontSize=axis_title_font_size,
         titleFontWeight=300,
         labelLimit=1000,
+        titlePadding=axis_title_padding
         # labelAngle=label_angle
     ).configure_legend(
         titleFontSize=16, titleFontWeight=400,
