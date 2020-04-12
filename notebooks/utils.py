@@ -274,6 +274,14 @@ def get_siteid_color_maps():
     site_combined_map = dict(zip(df["Acronym"].values.tolist(), df["Combined Color"].values.tolist()))
     return site_map, site_country_map, site_combined_map
 
+def get_anonymousid_color_maps():
+    df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    anonymousid_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Site Color"].values.tolist()))
+    anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
+    anonymousid_combined_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Combined Color"].values.tolist()))
+    return anonymousid_map, anonymousid_country_map, anonymousid_combined_map
+
 def get_country_color_map():
     df = read_site_details_df()
     df = df.reset_index()
