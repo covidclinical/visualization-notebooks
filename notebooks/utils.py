@@ -250,6 +250,12 @@ def read_lab_variation_by_country_df():
 def read_lab_weights_df():
     return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_weights_for_MetaAnalysis.csv"), sep=",", header=0)
 
+def read_lab_drop_adjusted_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_drop_adjusted.csv"), sep=",", header=0)
+
+def read_lab_drop_unadjusted_df():
+    return pd.read_csv(join(LAB_ADDITIONAL_DATA_DIR, "Lab_drop_unadjusted.csv"), sep=",", header=0)
+
 def read_site_details_df():
     details_df = pd.read_csv(join(DATA_DIR, "Health_Systems_Participating.csv"), sep=",", header=0)
     id_df = pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
