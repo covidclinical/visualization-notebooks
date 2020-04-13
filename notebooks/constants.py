@@ -18,6 +18,7 @@ COMBINED_DATA_GLOB = join(COMBINED_DATA_DIR, "*.csv")
 COMBINED_DATA_REGEX = r"(.*){file_type}-Combined(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
 COMBINED_COUNTRY_LEVEL_DATA_REGEX = r"(.*){file_type}-CombinedByCountry(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
 COMBINED_SITE_LEVEL_DATA_REGEX = r"(.*){file_type}-CombinedBySite(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
+COMBINED_ANONYMOUS_SITE_LEVEL_DATA_REGEX = r"(.*){file_type}-CombinedBySiteNumber(?P<year>[\d]{{2}})(?P<month>[\d]{{2}})(?P<day>[\d]{{2}}).csv$"
 
 # Standard column names
 class COLUMNS:
@@ -56,6 +57,8 @@ class COLUMNS:
     NUM_SITES = "num_sites"
     NUM_HOSPITALS = "num_hospitals"
     IS_COUNTRY = "is_country"
+    COUNTRY = "country"
+    COLOR = "color"
     # DailyCounts
     UNMASKED_SITES_NEW_POSITIVE_CASES = "unmasked_sites_new_positive_cases"
     UNMASKED_SITES_PATIENTS_IN_ICU = "unmasked_sites_patients_in_icu"
@@ -146,3 +149,4 @@ class DATA_AGGREGATE_TYPES:
     COMBINED_ALL = "CombinedAll"
     COMBINED_BY_COUNTRY = "CombinedByCountry"
     COMBINED_BY_SITE = "CombinedBySite"
+    COMBINED_BY_SITE_ANONYMOUS = "CombinedBySiteNumber"

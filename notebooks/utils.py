@@ -18,6 +18,7 @@ from constants import (
     COMBINED_DATA_REGEX,
     COMBINED_COUNTRY_LEVEL_DATA_REGEX,
     COMBINED_SITE_LEVEL_DATA_REGEX,
+    COMBINED_ANONYMOUS_SITE_LEVEL_DATA_REGEX,
     SITE_FILE_TYPES,
     ALL_SITE_FILE_TYPES,
     DATA_AGGREGATE_TYPES
@@ -171,6 +172,8 @@ def read_combined_file_df(ft=SITE_FILE_TYPES.DEMOGRAPHICS, agg=DATA_AGGREGATE_TY
         regex = COMBINED_COUNTRY_LEVEL_DATA_REGEX
     elif agg == DATA_AGGREGATE_TYPES.COMBINED_BY_SITE:
         regex = COMBINED_SITE_LEVEL_DATA_REGEX
+    elif agg == DATA_AGGREGATE_TYPES.COMBINED_BY_SITE_ANONYMOUS:
+        regex = COMBINED_ANONYMOUS_SITE_LEVEL_DATA_REGEX
 
     potential_matches = [
         (re.match(regex.format(file_type=ft), fp), ft)
@@ -221,6 +224,9 @@ def read_combined_by_site_diagnoses_df():
     return read_combined_file_df(ft=SITE_FILE_TYPES.DIAGNOSES, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
 
 def read_combined_by_site_labs_df():
+    return read_combined_file_df(ft=SITE_FILE_TYPES.LABS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
+
+def read_combined_by_site_anonymous_labs_df():
     return read_combined_file_df(ft=SITE_FILE_TYPES.LABS, agg=DATA_AGGREGATE_TYPES.COMBINED_BY_SITE)
 
 """
@@ -290,6 +296,12 @@ def get_combined_color():
     colors = df["Combined Color"].unique().tolist()
     assert(len(colors) == 1)
     return colors[0]
+
+def get_combined_color_map():
+    df = read_site_details_df()
+    colors = df["Combined Color"].unique().tolist()
+    assert(len(colors) == 1)
+    return {"Combined": colors[0]}
 
 """
 Helpers to make columns by data types.
