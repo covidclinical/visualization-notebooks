@@ -1,5 +1,5 @@
 # visualization-notebooks
-Jupyter Notebooks and other code for 4CE data visualizations.
+Jupyter Notebooks for 4CE data visualizations.
 
 ## Development
 
