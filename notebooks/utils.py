@@ -409,10 +409,11 @@ def apply_theme(
     axis_title_padding=10,
     label_angle=0,
     legend_orient="top-left",
+    legend_title_orient="top",
     legend_stroke_color="lightgray",
     legend_padding=10,
     legend_symbol_type="circle",
-    label_font_size=14
+    label_font_size=14,
 ):
     return base.configure_view(
         # ...
@@ -442,6 +443,7 @@ def apply_theme(
         fillColor="white",
         strokeColor=legend_stroke_color,
         symbolType=legend_symbol_type,
+        titleOrient=legend_title_orient
     ).configure_concat(
         spacing=0
     )
