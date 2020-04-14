@@ -68,12 +68,12 @@ plot
 ```
 
 By default, the `for_website` function does nothing.
-Only when the environment variable `4CE_SAVE_FOR_WEB_DIR` is set on your computer, will the output JSON files be generated.
+Only when the environment variable `C19_SAVE_FOR_WEB_DIR` is set on your computer, will the output JSON files be generated.
 
 This environment variable can be set like this:
 
 ```sh
-export 4CE_SAVE_FOR_WEB_DIR=~/research/dbmi/covid/plots_for_website
+export C19_SAVE_FOR_WEB_DIR=~/research/dbmi/covid/plots_for_website
 ```
 
 ## Troubleshooting
