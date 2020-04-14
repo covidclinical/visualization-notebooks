@@ -413,6 +413,7 @@ def apply_theme(
     legend_stroke_color="lightgray",
     legend_padding=10,
     legend_symbol_type="circle",
+    legend_title_font_size=16,
     label_font_size=14,
 ):
     return base.configure_view(
@@ -435,8 +436,10 @@ def apply_theme(
         titlePadding=axis_title_padding
         # labelAngle=label_angle
     ).configure_legend(
-        titleFontSize=16, titleFontWeight=400,
-        labelFontSize=label_font_size, labelFontWeight=300,
+        titleFontSize=legend_title_font_size,
+        titleFontWeight=400,
+        labelFontSize=label_font_size,
+        labelFontWeight=300,
         padding=legend_padding,
         cornerRadius=0,
         orient=legend_orient,
