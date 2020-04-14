@@ -9,7 +9,7 @@ def slugify(text):
     return re.sub(r'[\W_]+', '-', text)
 
 def for_website(altair_plot, nb_name=None, plot_name=None):
-    save_dir = os.getenv("C19_SAVE_FOR_WEB_DIR", None)
+    save_dir = os.getenv("4CE_SAVE_FOR_WEB_DIR", None)
     should_save_for_web = (save_dir != None and str(save_dir) != '0')
 
     if nb_name == None:

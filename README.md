@@ -1,5 +1,5 @@
-# c19i2b2-notebooks
-Jupyter Notebooks for c19i2b2 project.
+# visualization-notebooks
+Jupyter Notebooks and other code for 4CE data visualizations.
 
 ## Development
 
@@ -42,7 +42,7 @@ cd notebooks
 Start Jupyter with the Python (or R) kernel:
 
 ```sh
-conda activate c19i2b2-py # or c19i2b2-r
+conda activate 4ce-py # or 4ce-r
 jupyter notebook
 ```
 
@@ -68,12 +68,12 @@ plot
 ```
 
 By default, the `for_website` function does nothing.
-Only when the environment variable `C19_SAVE_FOR_WEB_DIR` is set on your computer, will the output JSON files be generated.
+Only when the environment variable `4CE_SAVE_FOR_WEB_DIR` is set on your computer, will the output JSON files be generated.
 
 This environment variable can be set like this:
 
 ```sh
-export C19_SAVE_FOR_WEB_DIR=~/research/dbmi/covid/plots_for_website
+export 4CE_SAVE_FOR_WEB_DIR=~/research/dbmi/covid/plots_for_website
 ```
 
 ## Troubleshooting
