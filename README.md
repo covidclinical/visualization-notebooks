@@ -1,7 +1,6 @@
-# visualization-notebooks
-Jupyter Notebooks for 4CE data visualizations.
+# visualization-notebooks [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/covidclinical/visualization-notebooks/master)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/covidclinical/visualization-notebooks/master)
+Jupyter Notebooks for 4CE data visualizations.
 
 ## Development
 
