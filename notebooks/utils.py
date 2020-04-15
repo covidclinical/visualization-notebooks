@@ -400,10 +400,14 @@ def get_combined_columns(filetype):
 """
 Utilities to customize visualizations.
 """
-def get_visualization_subtitle(alt_num_sites=None):
+def get_visualization_subtitle(alt_num_sites=None, with_num_sites=True):
+
     num_sites = len(read_combined_by_site_demographics_df()[COLUMNS.SITE_ID].unique()) if alt_num_sites == None else alt_num_sites
     data_release = "2020-04-11"
-    return f"Data as of {data_release}  |  {num_sites} Sites"
+    if with_num_sites:
+        return f"Data as of {data_release}  |  {num_sites} Sites"
+    else:
+        return f"Data as of {data_release}"
 
 def apply_theme(
     base,
