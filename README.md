@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/covidclinical/visualization-notebooks/master)
+
 # visualization-notebooks
 Jupyter Notebooks for 4CE data visualizations.
 
