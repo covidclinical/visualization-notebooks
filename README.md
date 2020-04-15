@@ -17,7 +17,7 @@ chmod +x ./.git/hooks/pre-commit
 Set up environments using conda:
 
 ```sh
-conda env create -f environment.py.yml
+conda env create -f environment.yml
 conda env create -f environment.r.yml
 ```
 
@@ -85,5 +85,5 @@ export C19_SAVE_FOR_WEB_DIR=~/research/dbmi/covid/plots_for_website
 To add or remove a conda package, update the corresponding environment file. Then run
 
 ```sh
-conda env update -f environment.py.yml # or environment.r.yml
+conda env update -f environment.yml # or environment.r.yml
 ```
