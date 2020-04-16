@@ -1,4 +1,4 @@
-name: 4ce-py
+name: 4ce
 channels:
   - conda-forge
   - bioconda

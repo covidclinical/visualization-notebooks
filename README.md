@@ -43,7 +43,7 @@ cd notebooks
 Start Jupyter with the Python (or R) kernel:
 
 ```sh
-conda activate 4ce-py # or 4ce-r
+conda activate 4ce # or 4ce-r
 jupyter notebook
 ```
 
