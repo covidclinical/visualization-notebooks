@@ -13,11 +13,13 @@ cp ./pre-commit.sh ./.git/hooks/pre-commit
 chmod +x ./.git/hooks/pre-commit
 ```
 
-Set up environments using conda:
+Set up environments using Conda and enable Jupyter widgets:
 
 ```sh
 conda env create -f environment.yml
 conda env create -f environment.r.yml
+
+jupyter nbextension enable --py --sys-prefix lineup_widget
 ```
 
 To use real datasets, create a data folder:
