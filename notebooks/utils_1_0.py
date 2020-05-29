@@ -7,12 +7,12 @@ import dateutil.parser
 from os.path import join
 
 
-from constants import (
+from constants_1_0 import (
     COLUMNS,
     DATA_DIR,
     LOOKUP_DATA_DIR,
     LAB_ADDITIONAL_DATA_DIR,
-    SITE_DATA_GLOB, 
+    SITE_DATA_GLOB,
     SITE_FILE_REGEX,
     COMBINED_DATA_GLOB,
     COMBINED_DATA_REGEX,
@@ -32,10 +32,10 @@ def get_site_file_paths():
 
 def get_site_file_info(file_types=ALL_SITE_FILE_TYPES):
     file_paths = get_site_file_paths()
-    potential_matches = [ 
+    potential_matches = [
         (re.match(SITE_FILE_REGEX.format(file_type=ft), fp), ft)
-            for ft in file_types 
-            for fp in file_paths 
+            for ft in file_types
+            for fp in file_paths
     ]
     all_info = [ dict(**m.groupdict(), file_type=ft, file_path=m[0]) for m, ft in potential_matches if m is not None ]
     for info in all_info:
