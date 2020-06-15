@@ -1,15 +1,19 @@
-labTest	loinc	unit
-White blood cell count	6690-2	10*3/uL
-Neutrophil count	751-8	10*3/uL
-Lymphocyte count	731-0	10*3/uL
-Albumin	1751-7	g/dL
-Lactate dehydrogenase	2532-0	U/L
-Alanine aminotransferase	1742-6	U/L
-Aspartate aminotransferase	1920-8	U/L
-Total bilirubin	1975-2	mg/dL
-Creatinine	2160-0	mg/dL
-Cardiac troponin	49563-0	ng/mL
-D-dimer	7799-0	-1
-Prothrombin time	5902-2	s
-Procalcitonin	33959-8	ng/mL
-C-reactive protein	1988-5	mg/dL
+Name	LOINC	Units	Reference Low	Reference High
+alanine aminotransferase (ALT)	1742-6	U/L	0	40
+albumin	1751-7	g/dL	3.5	5.2
+aspartate aminotransferase (AST)	1920-8	U/L	0	40
+cardiac troponin (High Sensitivity)	49563-0	ng/mL	0	0.01
+cardiac troponin (Normal Sensitivity)	6598-7	ug/L	0	0.01
+C-reactive protein (CRP) (Normal Sensitivity)	1988-5	mg/L	0	5
+creatinine	2160-0	mg/dL	0.4	1.1
+D-dimer (DDU)	48066-5	ng/mL{DDU}	0	250
+D-dimer (FEU)	48065-7	ng/mL{FEU}	0	500
+Ferritin	2276-4	ng/mL	13	400
+Fibrinogen	3255-7	mg/dL	180	400
+lactate dehydrogenase (LDH)	2532-0	U/L	94	250
+lymphocyte count	731-0	10*3/uL	1.2	3.7
+neutrophil count	751-8	10*3/uL	1.6	6.1
+procalcitonin	33959-8	ng/mL	0	0.15
+prothrombin time (PT)	5902-2	s	9.4	12.5
+total bilirubin	1975-2	mg/dL	0	1.5
+white blood cell count (Leukocytes)	6690-2	10*3/uL	4	10
