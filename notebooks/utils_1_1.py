@@ -49,8 +49,8 @@ def read_full_site_df(site_file_info, file_type):
         df = pd.read_csv(info["file_path"])
         columns = df.columns.values.tolist()
         # Case of column names is inconsistent
-        # Column names have white spaces which shouldn't be
-        df = df.rename(columns=dict(zip(columns, [ col.lower().replace(' ', '') for col in columns ])))
+        # Column names have white spaces and double quotation marks which shouldn't be
+        df = df.rename(columns=dict(zip(columns, [ col.lower().replace(' ', '').replace('"', '') for col in columns ])))
         site_dfs.append(df)
 
     full_df = pd.concat(site_dfs, ignore_index=True)
@@ -75,6 +75,14 @@ def read_full_lab_df():
     df["stdev_value_ever_severe"] = df["stdev_value_ever_severe"].astype(float)
     df["mean_log_value_ever_severe"] = df["mean_log_value_ever_severe"].astype(float)
     df["stdev_log_value_ever_severe"] = df["stdev_log_value_ever_severe"].astype(float)
+    return df
+
+def read_full_med_df():
+    df = read_full_site_df(get_site_file_info(), SITE_FILE_TYPES.MEDICATIONS)
+    df["num_patients_all_before_admission"] = df["num_patients_all_before_admission"].astype(int)
+    df["num_patients_all_since_admission"] = df["num_patients_all_since_admission"].astype(int)
+    df["num_patients_ever_severe_before_admission"] = df["num_patients_ever_severe_before_admission"].astype(int)
+    df["num_patients_ever_severe_since_admission"] = df["num_patients_ever_severe_since_admission"].astype(int)
     return df
 
 """
