@@ -95,6 +95,13 @@ def read_full_med_df():
     df["num_patients_ever_severe_since_admission"] = df["num_patients_ever_severe_since_admission"].astype(int)
     return df
 
+def read_full_cli_df():
+    df = read_full_site_df(get_site_file_info(), SITE_FILE_TYPES.CLINICAL_COURSE)
+    df["days_since_admission"] = df["days_since_admission"].astype(int)
+    df["num_patients_all_still_in_hospital"] = df["num_patients_all_still_in_hospital"].astype(int)
+    df["num_patients_ever_severe_still_in_hospital"] = df["num_patients_ever_severe_still_in_hospital"].astype(int)
+    return df
+
 """
 Helpers for reading additional data files.
 """
