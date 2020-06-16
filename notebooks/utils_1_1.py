@@ -54,6 +54,14 @@ def read_full_site_df(site_file_info, file_type):
         site_dfs.append(df)
 
     full_df = pd.concat(site_dfs, ignore_index=True)
+
+    # Remove a fake site
+    full_df = full_df[full_df['siteid'] != 'FICHOS']
+
+    # Add Country name and color
+    full_df['country'] = full_df['siteid'].apply(lambda x: get_siteid_country_map()[x])
+    full_df['color'] = full_df['siteid'].apply(lambda x: get_siteid_color_maps()[x])
+
     return full_df
 
 def read_full_demographics_df():
@@ -90,6 +98,38 @@ Helpers for reading additional data files.
 """
 def read_loinc_df():
     return pd.read_csv(join(LOOKUP_DATA_DIR, "lab_table.txt"), sep="\t", header=0)
+
+def read_site_details_df():
+    # No detail information for each site yet
+    return pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
+
+def get_siteid_anonymous_map():
+    df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Anonymous Site ID"].values.tolist()))
+
+def get_siteid_country_map():
+    df = read_site_details_df()
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Country"].values.tolist()))
+
+def get_siteid_color_maps():
+    df = read_site_details_df()
+    df = df.reset_index()
+    site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
+    return site_country_map
+
+def get_anonymousid_color_maps():
+    df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
+    return anonymousid_country_map
+
+def get_country_color_map():
+    df = read_site_details_df()
+    df = df.reset_index()
+    df = df.drop_duplicates(subset=["Country"])
+    return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
 
 """
 Helpers to apply high-level themes to altair charts.
@@ -146,7 +186,6 @@ def apply_theme(
     )
 
 def get_visualization_subtitle(data_release='YYYY-MM-DD', with_num_sites=True):
-
     if with_num_sites:
         num_sites = len(read_full_lab_df()['siteid'].unique())
     if with_num_sites:
