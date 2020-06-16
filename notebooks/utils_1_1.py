@@ -61,7 +61,7 @@ def read_full_site_df(site_file_info, file_type):
     # Add Country name and color
     siteid_to_country = get_siteid_country_map()
     siteid_to_color = get_siteid_color_maps()
-    full_df['country'] = full_df['siteid'].apply(lambda x: siteid_to_color[x])
+    full_df['country'] = full_df['siteid'].apply(lambda x: siteid_to_country[x])
     full_df['color'] = full_df['siteid'].apply(lambda x: siteid_to_color[x])
 
     return full_df
