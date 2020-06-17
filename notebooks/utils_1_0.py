@@ -258,7 +258,7 @@ def read_lab_drop_unadjusted_df():
 
 def read_site_details_df():
     details_df = pd.read_csv(join(DATA_DIR, "Health_Systems_Participating.csv"), sep=",", header=0)
-    id_df = pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
+    id_df = pd.read_csv(join(DATA_DIR, "SiteID_Map_1.0.csv"), sep=",", header=0)
     details_df = details_df.set_index("Acronym")
     id_df = id_df.set_index("Acronym")
 
