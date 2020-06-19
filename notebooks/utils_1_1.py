@@ -110,7 +110,15 @@ def read_loinc_df():
 
 def read_site_details_df():
     # No detail information for each site yet
-    return pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
+    return pd.read_csv(join(DATA_DIR, "SiteID_Map_All.csv"), sep=",", header=0)
+
+def read_none_pediatric_site_details_df():
+    # No detail information for each site yet
+    return pd.read_csv(join(DATA_DIR, "SiteID_Map_None_Pediatric.csv"), sep=",", header=0)
+
+def read_pediatric_site_details_df():
+    # No detail information for each site yet
+    return pd.read_csv(join(DATA_DIR, "SiteID_Map_Pediatric.csv"), sep=",", header=0)
 
 def get_siteid_anonymous_map():
     df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
@@ -124,6 +132,18 @@ def get_siteid_country_map():
 
 def get_siteid_color_maps():
     df = read_site_details_df()
+    df = df.reset_index()
+    site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
+    return site_country_map
+
+def get_siteid_color_maps_none_pediatric():
+    df = read_none_pediatric_site_details_df()
+    df = df.reset_index()
+    site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
+    return site_country_map
+
+def get_siteid_color_maps_pediatric():
+    df = read_pediatric_site_details_df()
     df = df.reset_index()
     site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
     return site_country_map
