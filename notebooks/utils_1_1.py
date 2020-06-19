@@ -102,6 +102,22 @@ def read_full_cli_df():
     df["num_patients_ever_severe_still_in_hospital"] = df["num_patients_ever_severe_still_in_hospital"].astype(int)
     return df
 
+def read_full_daily_counts_df():
+    df = read_full_site_df(get_site_file_info(), SITE_FILE_TYPES.DAILY_COUNTS)
+    df["cumulative_patients_all"] = df["cumulative_patients_all"].astype(int)
+    df["cumulative_patients_severe"] = df["cumulative_patients_severe"].astype(int)
+    df["cumulative_patients_dead"] = df["cumulative_patients_dead"].astype(int)
+    df["num_patients_in_hospital_on_this_date"] = df["num_patients_in_hospital_on_this_date"].astype(int)
+    df["num_patients_in_hospital_and_severe_on_this_date"] = df["num_patients_in_hospital_and_severe_on_this_date"].astype(int)
+    df["calendar_date"] = df["calendar_date"].astype(str)
+    def convert_date(date_str):
+        try:
+            return dateutil.parser.parse(date_str)
+        except:
+            return np.nan
+    df["calendar_date"] = df["calendar_date"].apply(convert_date)
+    return df
+
 """
 Helpers for reading additional data files.
 """
