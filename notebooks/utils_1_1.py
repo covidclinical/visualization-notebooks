@@ -126,8 +126,9 @@ def read_loinc_df():
 
 def read_site_details_df():
     # No detail information for each site yet
-    return pd.read_csv(join(DATA_DIR, "SiteID_Map_All.csv"), sep=",", header=0)
+    return pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
 
+# Clean codes for supporting pediatric and none pediatric sites.
 def read_none_pediatric_site_details_df():
     # No detail information for each site yet
     return pd.read_csv(join(DATA_DIR, "SiteID_Map_None_Pediatric.csv"), sep=",", header=0)
