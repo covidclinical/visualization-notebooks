@@ -46,7 +46,7 @@ Start Jupyter with the Python (or R) kernel:
 
 ```sh
 conda activate 4ce # or 4ce-r
-jupyter notebook
+jupyter notebook # or jupyter lab
 ```
 
 ## Conversion from Altair to Vega-Lite for the Web
