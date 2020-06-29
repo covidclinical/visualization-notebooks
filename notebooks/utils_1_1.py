@@ -68,7 +68,9 @@ def read_full_site_df(site_file_info, file_type):
 
 def read_full_demographics_df():
     df = read_full_site_df(get_site_file_info(), SITE_FILE_TYPES.DEMOGRAPHICS)
+    df["sex"] = df["sex"].apply(lambda x: x.strip() if type(x) == str else x)
     df["race"] = df["race"].apply(lambda x: x.strip() if type(x) == str else x)
+    df["age_group"] = df["age_group"].apply(lambda x: x.strip() if type(x) == str else x)
     df["num_patients_all"] = df["num_patients_all"].astype(int)
     df["num_patients_ever_severe"] = df["num_patients_ever_severe"].astype(int)
     return df
