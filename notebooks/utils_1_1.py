@@ -131,7 +131,12 @@ def read_site_details_df():
     # No detail information for each site yet
     return pd.read_csv(join(DATA_DIR, "SiteID_Map.csv"), sep=",", header=0)
 
-# Clean codes for supporting pediatric and none pediatric sites.
+def get_siteid_anonymous_map():
+    df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Anonymous Site ID"].values.tolist()))
+
+# TODO: Clean codes for supporting pediatric and none pediatric sites.
 def read_none_pediatric_site_details_df():
     # No detail information for each site yet
     return pd.read_csv(join(DATA_DIR, "SiteID_Map_None_Pediatric.csv"), sep=",", header=0)
@@ -170,6 +175,18 @@ def get_siteid_color_maps_pediatric():
 
 def get_anonymousid_color_maps():
     df = read_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
+    return anonymousid_country_map
+
+def get_anonymousid_color_maps_pediatric():
+    df = read_pediatric_site_details_df().sort_values(by=["Anonymous Site ID"])
+    df = df.reset_index()
+    anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
+    return anonymousid_country_map
+
+def get_anonymousid_color_maps_none_pediatric():
+    df = read_none_pediatric_site_details_df().sort_values(by=["Anonymous Site ID"])
     df = df.reset_index()
     anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
     return anonymousid_country_map
