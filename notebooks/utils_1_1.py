@@ -191,6 +191,18 @@ def get_anonymousid_color_maps_none_pediatric():
     anonymousid_country_map = dict(zip(df["Anonymous Site ID"].values.tolist(), df["Country Color"].values.tolist()))
     return anonymousid_country_map
 
+def get_country_color_map_pediatric():
+    df = read_pediatric_site_details_df()
+    df = df.reset_index()
+    df = df.drop_duplicates(subset=["Country"])
+    return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
+
+def get_country_color_map_none_pediatric():
+    df = read_none_pediatric_site_details_df()
+    df = df.reset_index()
+    df = df.drop_duplicates(subset=["Country"])
+    return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
+
 def get_country_color_map():
     df = read_site_details_df()
     df = df.reset_index()
