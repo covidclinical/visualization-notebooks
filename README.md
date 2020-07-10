@@ -88,3 +88,11 @@ To add or remove a conda package, update the corresponding environment file. The
 ```sh
 conda env update -f environment.yml # or environment.r.yml
 ```
+
+## Exporting
+
+To export a notebook to HTML, with only the outputs and no code, run:
+
+```sh
+jupyter nbconvert --to html --no-input path/to/notebook.ipynb
+```
