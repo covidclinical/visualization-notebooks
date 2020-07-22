@@ -6,7 +6,6 @@ import datetime
 import dateutil.parser
 from os.path import join
 
-
 from constants_1_1 import (
     DATA_DIR,
     LOOKUP_DATA_DIR,
@@ -61,9 +60,10 @@ def read_full_site_df(site_file_info, file_type):
     # Add Country name and color
     siteid_to_country = get_siteid_country_map()
     siteid_to_color = get_siteid_color_maps()
+    siteid_to_pediatric = get_siteid_pediatric_maps()
     full_df['country'] = full_df['siteid'].apply(lambda x: siteid_to_country[x])
     full_df['color'] = full_df['siteid'].apply(lambda x: siteid_to_color[x])
-
+    full_df['pediatric'] = full_df['siteid'].apply(lambda x: siteid_to_pediatric[x])
     return full_df
 
 def read_full_demographics_df():
@@ -160,6 +160,11 @@ def get_siteid_color_maps():
     df = df.reset_index()
     site_country_map = dict(zip(df["Acronym"].values.tolist(), df["Country Color"].values.tolist()))
     return site_country_map
+
+def get_siteid_pediatric_maps():
+    df = read_site_details_df()
+    df = df.reset_index()
+    return dict(zip(df["Acronym"].values.tolist(), df["Pediatric"].values.tolist()))
 
 def get_siteid_color_maps_none_pediatric():
     df = read_none_pediatric_site_details_df()
@@ -264,8 +269,8 @@ def apply_theme(
         spacing=0
     )
 
-def get_visualization_subtitle(data_release='YYYY-MM-DD', with_num_sites=True):
-    if with_num_sites:
+def get_visualization_subtitle(data_release='YYYY-MM-DD', with_num_sites=True, num_sites=None):
+    if num_sites == None:
         num_sites = len(read_full_lab_df()['siteid'].unique())
     if with_num_sites:
         return f"Data as of {data_release}  |  {num_sites} Sites"
