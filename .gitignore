@@ -3,6 +3,7 @@ data/
 
 # Saved PNG files
 output/
+notebooks/*.html
 
 .DS_Store
 .vscode/
