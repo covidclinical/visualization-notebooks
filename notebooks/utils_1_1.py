@@ -57,6 +57,9 @@ def read_full_site_df(site_file_info, file_type):
     # Remove a fake site
     full_df = full_df[full_df['siteid'] != 'FICHOS']
 
+    # Remove sites that are not included in our mapping table
+    full_df = full_df[full_df['siteid'].isin(get_siteid_country_map().keys())]
+
     # Add Country name and color
     siteid_to_country = get_siteid_country_map()
     siteid_to_color = get_siteid_color_maps()
