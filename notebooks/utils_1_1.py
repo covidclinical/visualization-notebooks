@@ -53,6 +53,8 @@ def read_full_site_df(site_file_info, file_type):
         site_dfs.append(df)
 
     full_df = pd.concat(site_dfs, ignore_index=True)
+    # Convert site IDs to uppercase to remove any discrepancies between the ID in the SiteID_Map.csv and the data folder/filenames.
+    full_df["siteid"] = full_df["siteid"].apply(lambda x: x.upper())
 
     # Remove a fake site
     full_df = full_df[full_df['siteid'] != 'FICHOS']
