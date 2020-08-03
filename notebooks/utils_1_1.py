@@ -274,10 +274,15 @@ def apply_theme(
         spacing=0
     )
 
-def get_visualization_subtitle(data_release='YYYY-MM-DD', with_num_sites=True, num_sites=None):
-    if num_sites == None:
-        num_sites = len(read_full_lab_df()['siteid'].unique())
+def get_visualization_subtitle(data_release='YYYY-MM-DD', with_num_sites=True, num_sites=None, cohort=None):
+    parts = [f"Data as of {data_release}"]
+    
     if with_num_sites:
-        return f"Data as of {data_release}  |  {num_sites} Sites"
-    else:
-        return f"Data as of {data_release}"
+        if num_sites == None:
+            num_sites = len(read_full_lab_df()['siteid'].unique())
+        parts += [f"{num_sites} Sites"]
+    
+    if cohort != None:
+        parts += [cohort]
+    
+    return " | ".join(parts)
