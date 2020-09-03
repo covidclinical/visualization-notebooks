@@ -13,8 +13,19 @@ from constants_1_1 import (
     SITE_PATH_GLOB,
     SITE_FILE_REGEX,
     SITE_FILE_TYPES,
-    ALL_SITE_FILE_TYPES
+    ALL_SITE_FILE_TYPES,
+    SINGLE_SITE_COUNTRIES,
+    MERGED_SINGLE_SITE_COUNTRIES_NAME
 )
+
+"""
+Constants and utilities for merging countries
+"""
+
+def merge_single_site_country_name(country_name):
+    if country_name in SINGLE_SITE_COUNTRIES:
+        return MERGED_SINGLE_SITE_COUNTRIES_NAME
+    return country_name
 
 """
 Utilities for listing site file information.
@@ -213,11 +224,16 @@ def get_country_color_map_none_pediatric():
     df = df.drop_duplicates(subset=["Country"])
     return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
 
-def get_country_color_map():
+def get_country_color_map(merge_single_site_countries=False):
     df = read_site_details_df()
     df = df.reset_index()
     df = df.drop_duplicates(subset=["Country"])
-    return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
+    result = dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
+    if merge_single_site_countries:
+        for country_name in SINGLE_SITE_COUNTRIES:
+            del result[country_name]
+        result[MERGED_SINGLE_SITE_COUNTRIES_NAME] = "#56B4E9"
+    return result
 
 """
 Helpers to apply high-level themes to altair charts.
