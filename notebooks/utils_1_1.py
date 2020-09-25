@@ -19,6 +19,19 @@ from constants_1_1 import (
 )
 
 """
+Utilities for descriptive statistics
+"""
+def count_patients_adult():
+    df = read_full_daily_counts_df()
+    df = df[df.pediatric == False]
+    sites = df['siteid'].unique().tolist()
+    total_cnt = 0
+    for site in sites:
+        cnt = df[df['siteid'] == site].max(axis = 0).cumulative_patients_all
+        total_cnt += cnt
+    return total_cnt
+
+"""
 Constants and utilities for merging countries
 """
 
