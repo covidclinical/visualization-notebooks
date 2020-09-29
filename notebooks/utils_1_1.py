@@ -14,17 +14,22 @@ from constants_1_1 import (
     SITE_FILE_REGEX,
     SITE_FILE_TYPES,
     ALL_SITE_FILE_TYPES,
-    SINGLE_SITE_COUNTRIES,
-    MERGED_SINGLE_SITE_COUNTRIES_NAME
+    SINGLE_SITE_COUNTRIES_ADULT,
+    SINGLE_SITE_COUNTRIES_PEDIATRIC,
+    MERGED_SINGLE_SITE_COUNTRIES_ADULT_NAME,
+    MERGED_SINGLE_SITE_COUNTRIES_PEDIATRIC_NAME
 )
 
 """
 Constants and utilities for merging countries
 """
-
-def merge_single_site_country_name(country_name):
-    if country_name in SINGLE_SITE_COUNTRIES:
-        return MERGED_SINGLE_SITE_COUNTRIES_NAME
+def merge_single_site_country_adult_name(country_name):
+    if country_name in SINGLE_SITE_COUNTRIES_ADULT:
+        return MERGED_SINGLE_SITE_COUNTRIES_ADULT_NAME
+    return country_name
+def merge_single_site_country_pediatric_name(country_name):
+    if country_name in SINGLE_SITE_COUNTRIES_PEDIATRIC:
+        return MERGED_SINGLE_SITE_COUNTRIES_PEDIATRIC_NAME
     return country_name
 
 """
@@ -166,10 +171,18 @@ def get_siteid_anonymous_map():
     df = df.reset_index()
     return dict(zip(df["Acronym"].values.tolist(), df["Anonymous Site ID"].values.tolist()))
 
-def get_siteid_country_map():
+def get_siteid_country_map(merge_single_site_countries=False, pediatric=False):
     df = read_site_details_df()
     df = df.reset_index()
-    return dict(zip(df["Acronym"].values.tolist(), df["Country"].values.tolist()))
+    result = dict(zip(df["Acronym"].values.tolist(), df["Country"].values.tolist()))
+    for siteid, country_name in result.items():
+        if merge_single_site_countries and pediatric:
+            if country_name in SINGLE_SITE_COUNTRIES_PEDIATRIC:
+                result[siteid] = MERGED_SINGLE_SITE_COUNTRIES_PEDIATRIC_NAME
+        if merge_single_site_countries and not pediatric:
+            if country_name in SINGLE_SITE_COUNTRIES_ADULT:
+                result[siteid] = MERGED_SINGLE_SITE_COUNTRIES_ADULT_NAME
+    return result
 
 def get_siteid_color_maps():
     df = read_site_details_df()
@@ -224,15 +237,19 @@ def get_country_color_map_none_pediatric():
     df = df.drop_duplicates(subset=["Country"])
     return dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
 
-def get_country_color_map(merge_single_site_countries=False):
+def get_country_color_map(merge_single_site_countries=False, pediatric=False):
     df = read_site_details_df()
     df = df.reset_index()
     df = df.drop_duplicates(subset=["Country"])
     result = dict(zip(df["Country"].values.tolist(), df["Country Color"].values.tolist()))
-    if merge_single_site_countries:
-        for country_name in SINGLE_SITE_COUNTRIES:
+    if merge_single_site_countries and pediatric:
+        for country_name in SINGLE_SITE_COUNTRIES_PEDIATRIC:
             del result[country_name]
-        result[MERGED_SINGLE_SITE_COUNTRIES_NAME] = "#56B4E9"
+        result[MERGED_SINGLE_SITE_COUNTRIES_PEDIATRIC_NAME] = "#56B4E9"
+    if merge_single_site_countries and not pediatric:
+        for country_name in SINGLE_SITE_COUNTRIES_ADULT:
+            del result[country_name]
+        result[MERGED_SINGLE_SITE_COUNTRIES_ADULT_NAME] = "#56B4E9"
     return result
 
 """
