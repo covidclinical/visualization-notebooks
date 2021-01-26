@@ -6,6 +6,7 @@ def apply_theme(
     title_anchor="middle",
     title_font_size=18,
     axis_title_font_size=16,
+    axis_y_title_font_size=16,
     axis_label_font_size=14,
     axis_title_padding=10,
     label_angle=0,
@@ -39,6 +40,8 @@ def apply_theme(
         # labelAngle=label_angle
     ).configure_axisX(
         labelAngle=0
+    ).configure_axisY(
+        titleFontSize=axis_y_title_font_size
     ).configure_legend(
         titleFontSize=legend_title_font_size,
         titleFontWeight=400,
