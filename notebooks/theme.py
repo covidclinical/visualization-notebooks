@@ -31,6 +31,7 @@ def apply_theme(
         anchor=title_anchor,
         align="left"
     ).configure_axis(
+        # domainWidth=2,
         labelFontSize=axis_label_font_size,
         labelFontWeight=300,
         titleFontSize=axis_title_font_size,
@@ -56,4 +57,7 @@ def apply_theme(
         titleOrient=legend_title_orient
     ).configure_concat(
         spacing=0
+    ).configure_view(
+        # stroke='black'
+        # strokeWidth=2
     )
