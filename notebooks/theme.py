@@ -4,7 +4,7 @@ Helpers to apply high-level themes to altair charts.
 def apply_theme(
     base,
     title_anchor="middle",
-    title_font_size=18,
+    title_font_size=20,
     axis_title_font_size=16,
     axis_y_title_font_size=16,
     axis_label_font_size=14,
@@ -17,9 +17,12 @@ def apply_theme(
     legend_symbol_type="circle",
     legend_title_font_size=16,
     label_font_size=14,
-    header_label_font_size=13
+    header_label_font_size=13,
+    point_size=70
 ):
-    return base.configure_view(
+    return base.configure(
+        font='Roboto Condensed'
+    ).configure_view(
         # ...
     ).configure_header(
         titleFontSize=16,
@@ -27,9 +30,11 @@ def apply_theme(
         labelFontSize=header_label_font_size
     ).configure_title(
         fontSize=title_font_size,
+        subtitleFontSize=16,
         fontWeight=400,
         anchor=title_anchor,
-        align="left"
+        align="left",
+        subtitlePadding=5
     ).configure_axis(
         # domainWidth=2,
         labelFontSize=axis_label_font_size,
@@ -60,4 +65,6 @@ def apply_theme(
     ).configure_view(
         # stroke='black'
         # strokeWidth=2
+    ).configure_point(
+        size=point_size
     )
