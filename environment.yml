@@ -15,6 +15,7 @@ dependencies:
   - altair_saver
   - vega_datasets
   - requests
+  - xlrd
   - pip
   - pip:
     - lineup_widget
