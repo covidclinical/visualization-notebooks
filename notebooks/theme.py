@@ -14,19 +14,17 @@ def apply_theme(
     legend_title_orient="top",
     legend_stroke_color="lightgray",
     legend_padding=10,
-    legend_symbol_type="circle",
+    legend_symbol_type="square",
     legend_title_font_size=16,
     label_font_size=14,
     header_label_font_size=13,
     point_size=70
 ):
     return base.configure(
-        font='Roboto Condensed'
-    ).configure_view(
-        # ...
+        font='Roboto Condensed',
     ).configure_header(
         titleFontSize=16,
-        titleFontWeight=300,
+        titleFontWeight='bold',
         labelFontSize=header_label_font_size
     ).configure_title(
         fontSize=title_font_size,
@@ -42,12 +40,16 @@ def apply_theme(
         titleFontSize=axis_title_font_size,
         titleFontWeight=400,
         labelLimit=1000,
-        titlePadding=axis_title_padding
+        titlePadding=axis_title_padding,
+        tickColor='white',
+        domainWidth=1.5,
+        domainColor='black'
         # labelAngle=label_angle
     ).configure_axisX(
         labelAngle=0
     ).configure_axisY(
-        titleFontSize=axis_y_title_font_size
+        titleFontSize=axis_y_title_font_size,
+        domain=False
     ).configure_legend(
         titleFontSize=legend_title_font_size,
         titleFontWeight=400,
@@ -63,6 +65,8 @@ def apply_theme(
     ).configure_concat(
         spacing=0
     ).configure_view(
+        fill='#F3F5F5',
+        strokeWidth=0
         # stroke='black'
         # strokeWidth=2
     ).configure_point(
