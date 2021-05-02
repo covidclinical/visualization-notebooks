@@ -14,7 +14,7 @@ def apply_theme(
     legend_title_orient="top",
     legend_stroke_color="lightgray",
     legend_padding=10,
-    legend_symbol_type="square",
+    legend_symbol_type="circle",
     legend_title_font_size=16,
     label_font_size=14,
     header_label_font_size=13,
