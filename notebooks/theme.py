@@ -18,6 +18,7 @@ def apply_theme(
     legend_title_font_size=16,
     label_font_size=14,
     header_label_font_size=13,
+    header_label_orient='bottom',
     point_size=70
 ):
     return base.configure(
@@ -25,6 +26,7 @@ def apply_theme(
     ).configure_header(
         titleFontSize=16,
         titleFontWeight='bold',
+        labelOrient=header_label_orient,
         labelFontSize=header_label_font_size
     ).configure_title(
         fontSize=title_font_size,
