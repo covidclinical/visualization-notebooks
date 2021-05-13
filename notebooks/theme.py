@@ -65,7 +65,8 @@ def apply_theme(
         symbolStrokeWidth=2,
         strokeColor=legend_stroke_color,
         symbolType=legend_symbol_type,
-        titleOrient=legend_title_orient
+        titleOrient=legend_title_orient,
+        gradientLength=50
     ).configure_concat(
         spacing=0
     ).configure_view(
