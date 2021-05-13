@@ -5,6 +5,7 @@ def apply_theme(
     base,
     title_anchor="middle",
     title_font_size=20,
+    subtitle_font_size=16,
     axis_title_font_size=16,
     axis_y_title_font_size=16,
     axis_label_font_size=14,
@@ -30,7 +31,7 @@ def apply_theme(
         labelFontSize=header_label_font_size
     ).configure_title(
         fontSize=title_font_size,
-        subtitleFontSize=16,
+        subtitleFontSize=subtitle_font_size,
         fontWeight=400,
         anchor=title_anchor,
         align="left",
@@ -61,6 +62,7 @@ def apply_theme(
         cornerRadius=0,
         orient=legend_orient,
         fillColor="white",
+        symbolStrokeWidth=2,
         strokeColor=legend_stroke_color,
         symbolType=legend_symbol_type,
         titleOrient=legend_title_orient
