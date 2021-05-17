@@ -3,8 +3,9 @@ Helpers to apply high-level themes to altair charts.
 """
 def apply_theme(
     base,
+    title_dy=-10,
     title_anchor="middle",
-    title_font_size=20,
+    title_font_size=22,
     subtitle_font_size=16,
     axis_title_font_size=16,
     axis_y_title_font_size=16,
@@ -32,9 +33,10 @@ def apply_theme(
     ).configure_title(
         fontSize=title_font_size,
         subtitleFontSize=subtitle_font_size,
-        fontWeight=400,
+        fontWeight=500,
         anchor=title_anchor,
         align="left",
+        dy=title_dy,
         subtitlePadding=5
     ).configure_axis(
         # domainWidth=2,
