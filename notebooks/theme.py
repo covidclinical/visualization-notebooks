@@ -11,6 +11,8 @@ def apply_theme(
     axis_y_title_font_size=16,
     axis_label_font_size=14,
     axis_title_padding=10,
+    axis_tick_color='white',
+    axis_domain_width=1.5,
     label_angle=0,
     legend_orient="right",
     legend_title_orient="top",
@@ -46,8 +48,8 @@ def apply_theme(
         titleFontWeight=400,
         labelLimit=1000,
         titlePadding=axis_title_padding,
-        tickColor='white',
-        domainWidth=1.5,
+        tickColor=axis_tick_color,
+        domainWidth=axis_domain_width,
         domainColor='black'
         # labelAngle=label_angle
     ).configure_axisX(
