@@ -4,6 +4,7 @@ data/
 # Saved PNG files
 output/
 notebooks/*.html
+result/
 
 .DS_Store
 .vscode/
