@@ -68,8 +68,10 @@ def apply_theme(
         fillColor="white",
         symbolStrokeWidth=2,
         strokeColor=legend_stroke_color,
-        symbolType=legend_symbol_type,
+        # temporally commented out
+        # symbolType=legend_symbol_type,
         titleOrient=legend_title_orient,
+        direction='horizontal',
         gradientLength=50
     ).configure_concat(
         spacing=0
