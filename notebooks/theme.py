@@ -71,7 +71,7 @@ def apply_theme(
         # temporally commented out
         # symbolType=legend_symbol_type,
         titleOrient=legend_title_orient,
-        direction='horizontal',
+        # direction='horizontal',
         gradientLength=50
     ).configure_concat(
         spacing=0
