@@ -65,7 +65,7 @@ def apply_theme(
         padding=legend_padding,
         cornerRadius=0,
         orient=legend_orient,
-        # fillColor="white",
+        fillColor="white",
         symbolStrokeWidth=2,
         strokeColor=legend_stroke_color,
         # temporally commented out
